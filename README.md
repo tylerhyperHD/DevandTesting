@@ -3,14 +3,14 @@
 This plugin used to be the private plugin that I wouldn't share with anyone back with freedom mods. Now, it's public, and it's better than ever.
 
 ## Features
-/admin - to change your gamemode. That's all there is to it, plus it's fully customizable.
-/multirun - to use for your entertainment.
-/color - to set the color of your messages. Let their be rainbows.
-/dab - to be apart of the clout daemons.
-/website - for full added customizations.
-/spectator - (Being removed soon)
-/lagg - Soon to be multi-usage. Clears all entities within the area for now.
-/kill - Fully customizable to make people laugh more often.
+- /admin - to change your gamemode. That's all there is to it, plus it's fully customizable.
+- /multirun - to use for your entertainment.
+- /color - to set the color of your messages. Let their be rainbows.
+- /dab - to be apart of the clout daemons.
+- /website - for full added customizations.
+- /spectator - (Being removed soon)
+- /lagg - Soon to be multi-usage. Clears all entities within the area for now.
+- /kill - Fully customizable to make people laugh more often.
 Also a fully custom player join listener has been added to make joining the game more exciting.
 
 ## Coming Soon
