@@ -1,0 +1,7 @@
+/target/
+*.prefs
+.classpath
+.project
+/lib/
+*.DS_Store
+nb-configuration.xml

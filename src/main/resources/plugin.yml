@@ -1,0 +1,54 @@
+name: DevandTesting
+main: com.tylerhyperhd.devandtesting.DevandTesting
+version: 1.3-BETA
+author: tylerhyperHD
+description: Made to test a server and its capabilities.
+commands:
+  creative:
+    description: Sets your gamemode to creative.
+    usage: /<command> [player]
+    aliases: [gmc, ecreative]
+  survival:
+    description: Sets your gamemode to survival.
+    usage: /<command> [player]
+    aliases: [gms, esurvival]
+  admin:
+    description: Go into and out of admin mode.
+    usage: /<command>
+  website:
+    description: Shows our website for ya.
+    usage: /<command>
+  gamemode:
+    description: Change your gamemode.
+    usage: /<command> [mode] [player]
+    aliases: [gm, egamemode]
+  color:
+    description: Change ur chat color.
+    usage: /<command> [color | num | off]
+  kill:
+    description: Kills a player.
+    usage: /<command> [player]
+    aliases: [ekill]
+  lagg:
+    description: Lagg manager on steroids.
+    usage: /<command> [clear]
+    aliases: [rd]
+  multirun:
+    description: Run a command a set amount of times.
+    usage: /<command> [times] [cmd]
+  dab:
+    description: Dab.
+    usage: /<command>
+  spectator:
+    description: Go in spectator mode.
+    usage: /<command>
+permissions:
+    devandtesting.admin:
+        description: Allows you to change to admin mode.
+        default: op
+    devandtesting.admin.others:
+        description: Allows you to change other players admin mode. Permission must be invoked to use it.
+        default: false
+    devandtesting.color:
+        description: Allows you to change your chat color.
+        default: op
