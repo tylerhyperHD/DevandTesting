@@ -28,7 +28,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class Command_creative implements CommandExecutor {
 
@@ -40,10 +39,6 @@ public class Command_creative implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-
-        @SuppressWarnings("unused")
-		Player sender_p = (Player) sender;
-
         if (!sender.hasPermission("devandtesting.admin")) {
             plugin.noperms.nope(sender);
             return true;

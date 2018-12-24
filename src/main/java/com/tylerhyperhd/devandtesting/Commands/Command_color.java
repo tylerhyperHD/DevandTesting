@@ -34,7 +34,7 @@ public class Command_color implements CommandExecutor {
 
     private final DevandTesting plugin;
 
-    public String PREFIX = ChatColor.GOLD + "[AoP]";
+    public String PREFIX = ChatColor.GOLD + "[DevandTesting]";
 
     public Command_color(DevandTesting plugin) {
         this.plugin = plugin;

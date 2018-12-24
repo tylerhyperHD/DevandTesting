@@ -45,7 +45,6 @@ public class ConfigExe {
 		if (plugin == null) {
 			throw new IllegalArgumentException("plugin cannot be null");
 		}
-		// This will break easier
 		if (!plugin.isEnabled()) {
 			throw new IllegalArgumentException("plugin must be initialized");
 		}
@@ -61,7 +60,6 @@ public class ConfigExe {
 	public void reloadConfig() {
 		fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 
-		// Look for defaults in the jar
 		InputStream defConfigStream = plugin.getResource(fileName);
 		Reader targetReader = new InputStreamReader(defConfigStream);
 		if (defConfigStream != null) {
@@ -72,7 +70,7 @@ public class ConfigExe {
 
 	public FileConfiguration getConfig() {
 		if (fileConfiguration == null) {
-			this.reloadConfig();
+			reloadConfig();
 		}
 		return fileConfiguration;
 	}

@@ -45,7 +45,7 @@ public class Command_spectator implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
         Player sender_p = (Player) sender;
 
-        ConfigExe configu = DevandTesting.configs.getMainConfig();
+        ConfigExe configu = plugin.configs.getMainConfig();
         FileConfiguration configs = configu.getConfig();
         
         if (!sender.hasPermission("devandtesting.admin")) {

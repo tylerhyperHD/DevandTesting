@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.tylerhyperHD</groupId>
 	<artifactId>DevandTesting</artifactId>
-	<version>1.3-BETA</version>
+	<version>1.3.1-ALPHA</version>
 	<packaging>jar</packaging>
 	<name>DevandTesting</name>
 	<properties>
@@ -56,12 +56,13 @@
 						<exclude>src/main/resources/**</exclude>
 						<exclude>src/main/java/com/tylerhyperhd/devandtesting/Commands/Command_multirun.java</exclude>
 						<exclude>src/main/java/com/tylerhyperhd/devandtesting/ColorMeBitch.java</exclude>
+						<exclude>src/main/java/com/tylerhyperhd/devandtesting/InsaneBranch/Commands/**</exclude>
 					</excludes>
 				</configuration>
 				<executions>
 					<execution>
 						<goals>
-							<goal>check</goal>
+							<goal>format</goal>
 						</goals>
 					</execution>
 				</executions>

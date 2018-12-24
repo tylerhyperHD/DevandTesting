@@ -31,10 +31,12 @@ import com.tylerhyperhd.devandtesting.Commands.Command_gamemode;
 import com.tylerhyperhd.devandtesting.Commands.Command_kill;
 import com.tylerhyperhd.devandtesting.Commands.Command_lagg;
 import com.tylerhyperhd.devandtesting.Commands.Command_multirun;
+import com.tylerhyperhd.devandtesting.Commands.Command_pkillswitch;
 import com.tylerhyperhd.devandtesting.Commands.Command_survival;
 import com.tylerhyperhd.devandtesting.Commands.Command_website;
 import com.tylerhyperhd.devandtesting.Commands.Command_spectator;
 import com.tylerhyperhd.devandtesting.Listener.ColorListener;
+import com.tylerhyperhd.devandtesting.Listener.InsaneListener;
 import com.tylerhyperhd.devandtesting.Listener.TestingListener;
 import com.tylerhyperhd.devandtesting.Commands.NoPerms;
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class DevandTesting extends JavaPlugin {
 	public static DevandTesting plugin;
 	public NoPerms noperms;
 	public static DevLogger logger;
-	public static ConfigLoader configs;
+	public ConfigLoader configs;
 	public static InvHandler inv;
 	public static String version;
 	public static List<String> admin = new ArrayList<String>();
@@ -64,14 +66,21 @@ public class DevandTesting extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		logger.info("Dev and Testing helps fix all dev problems!");
+		logger.info("DevandTesting helps fix all dev problems!");
 		logger.info("Made by tylerhyperHD");
 
 		if (version.contains("ALPHA")) {
 			logger.info("=====================================");
-			logger.info("WARNING: DEV AND TESTING IS IN ALPHA");
-			logger.info("PROBLEMS ARE PRONE TO HAPPEN ON THESE BUILDS");
-			logger.info("CONTACT TYLERHYPERHD TO SEE WHAT THIS MEANS");
+			logger.info("WARNING: DevandTesting is in ALPHA");
+			logger.info("Alpha builds are prone to huge issues and instability.");
+			logger.info("Please proceed with caution as there is no support for these builds.");
+			logger.info("=====================================");
+		}
+		else if (version.contains("BETA")) {
+			logger.info("=====================================");
+			logger.info("Notice: DevandTesting is in BETA");
+			logger.info("There might be issues related to this build not solved.");
+			logger.info("Please proceed with caution.");
 			logger.info("=====================================");
 		}
 
@@ -88,10 +97,17 @@ public class DevandTesting extends JavaPlugin {
 		plugin.getCommand("lagg").setExecutor(new Command_lagg(plugin));
 		plugin.getCommand("dab").setExecutor(new Command_dab(plugin));
 		plugin.getCommand("spectator").setExecutor(new Command_spectator(plugin));
+		plugin.getCommand("pkillswitch").setExecutor(new Command_pkillswitch(plugin));
 
 		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvents(new TestingListener(), plugin);
+		pm.registerEvents(new TestingListener(plugin), plugin);
 		pm.registerEvents(new ColorListener(), plugin);
+		
+		if(configs.isInsaneModeEnabled()) {
+			logger.warning("Insane mode can be triggered right now. This might cause server chaos if it is toggled, so be careful.");
+			pm.registerEvents(new InsaneListener(plugin), plugin);
+		}
+		
 	}
 
 	@Override

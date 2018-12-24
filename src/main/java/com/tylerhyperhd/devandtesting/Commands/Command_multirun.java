@@ -10,7 +10,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,19 +17,16 @@ import org.apache.commons.lang3.StringUtils;
 public class Command_multirun implements CommandExecutor {
 
     private final DevandTesting plugin;
-	public static final List<String> OVERME = Arrays.asList("tylerhyperHD");
 
     public Command_multirun(DevandTesting plugin) {
         this.plugin = plugin;
     }
 
-    @SuppressWarnings("unused")
 	@Override
     public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-        Player sender_p = (Player) sender;
-
-        
-        if (!OVERME.contains(sender.getName())) {
+		List<String> OVERLORDS = plugin.configs.getOverlords();
+		        
+        if (!OVERLORDS.contains(sender.getName())) {
             plugin.noperms.nope(sender);
             return true;
         }

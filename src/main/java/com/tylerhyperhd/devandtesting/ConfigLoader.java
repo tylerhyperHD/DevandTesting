@@ -23,6 +23,9 @@
  */
 package com.tylerhyperhd.devandtesting;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ConfigLoader {
 
 	private static ConfigExe mainconfig;
@@ -34,5 +37,14 @@ public class ConfigLoader {
 
 	public ConfigExe getMainConfig() {
 		return mainconfig;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getOverlords() {
+		return (List<String>) mainconfig.getConfig().get("Overlords");
+	}
+	
+	public boolean isInsaneModeEnabled() {
+		return mainconfig.getConfig().getBoolean("insaneModeEnabled");
 	}
 }

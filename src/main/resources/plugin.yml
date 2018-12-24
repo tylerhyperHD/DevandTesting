@@ -1,6 +1,6 @@
 name: DevandTesting
 main: com.tylerhyperhd.devandtesting.DevandTesting
-version: 1.3-BETA
+version: 1.3.1-ALPHA
 author: tylerhyperHD
 description: Made to test a server and its capabilities.
 commands:
@@ -42,6 +42,12 @@ commands:
   spectator:
     description: Go in spectator mode.
     usage: /<command>
+  pkillswitch:
+    description: Disables all plugins except DevandTesting OR disables all plugins.
+    usage: /<command> [everything]
+  purple:
+    description: Insane only command. Graces the world with purple.
+    usage: /<command>
 permissions:
     devandtesting.admin:
         description: Allows you to change to admin mode.
@@ -52,3 +58,6 @@ permissions:
     devandtesting.color:
         description: Allows you to change your chat color.
         default: op
+    devandtesting.insane:
+        description: Allows use of the insane command. Disabled unless given perms.
+        default: false
