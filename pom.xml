@@ -18,7 +18,7 @@
 	<repositories>
 		<repository>
 			<id>spigot</id>
-			<url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
 	</repositories>
 	<dependencies>
