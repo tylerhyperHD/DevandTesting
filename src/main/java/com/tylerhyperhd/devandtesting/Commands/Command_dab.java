@@ -23,38 +23,36 @@
  */
 package com.tylerhyperhd.devandtesting.Commands;
 
-import com.tylerhyperhd.devandtesting.DevandTesting;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.tylerhyperhd.devandtesting.DevandTesting;
+
 public class Command_dab implements CommandExecutor {
 
-    private final DevandTesting plugin;
+	private final DevandTesting plugin;
 
-    public Command_dab(DevandTesting plugin) {
-        this.plugin = plugin;
-    }
+	public Command_dab(DevandTesting plugin) {
+		this.plugin = plugin;
+	}
 
 	@Override
-    public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-        Player sender_p = (Player) sender;
-        
-        
-        if (!sender.hasPermission("devandtesting.admin")) {
-            plugin.noperms.nope(sender);
-            return true;
-        }
-        
-        
-        sender_p.chat("dab");
-        if (Bukkit.getServer().getPlayerExact("tylerhyperHD").isOnline()) {
-        	Player player = Bukkit.getPlayer("tylerhyperHD");
-        	player.chat("Die.");
-        }
-        return true;
-    }
+	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
+		Player sender_p = (Player) sender;
+
+		if (!sender.hasPermission("devandtesting.admin")) {
+			plugin.noperms.nope(sender);
+			return true;
+		}
+
+		sender_p.chat("dab");
+		if (Bukkit.getServer().getPlayerExact("tylerhyperHD").isOnline()) {
+			Player player = Bukkit.getPlayer("tylerhyperHD");
+			player.chat("Die.");
+		}
+		return true;
+	}
 }

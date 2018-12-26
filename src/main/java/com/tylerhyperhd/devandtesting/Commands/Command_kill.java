@@ -23,14 +23,15 @@
  */
 package com.tylerhyperhd.devandtesting.Commands;
 
-import com.tylerhyperhd.devandtesting.ColorMeBitch;
-import com.tylerhyperhd.devandtesting.DevandTesting;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import com.tylerhyperhd.devandtesting.ColorMeBitch;
+import com.tylerhyperhd.devandtesting.DevandTesting;
 
 public class Command_kill implements CommandExecutor {
 

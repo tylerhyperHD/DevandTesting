@@ -23,43 +23,45 @@
  */
 package com.tylerhyperhd.devandtesting.Commands;
 
-import com.tylerhyperhd.devandtesting.ConfigExe;
-import com.tylerhyperhd.devandtesting.DevandTesting;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+
+import com.tylerhyperhd.devandtesting.ConfigExe;
+import com.tylerhyperhd.devandtesting.DevandTesting;
 
 public class Command_spectator implements CommandExecutor {
 
-    private final DevandTesting plugin;
+	private final DevandTesting plugin;
 
-    public Command_spectator(DevandTesting plugin) {
-        this.plugin = plugin;
-    }
+	public Command_spectator(DevandTesting plugin) {
+		this.plugin = plugin;
+	}
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-        Player sender_p = (Player) sender;
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
+		Player sender_p = (Player) sender;
 
-        ConfigExe configu = plugin.configs.getMainConfig();
-        FileConfiguration configs = configu.getConfig();
-        
-        if (!sender.hasPermission("devandtesting.admin")) {
-            plugin.noperms.nope(sender);
-            return true;
-        }
-        
-        if (configs.getBoolean(sender_p.getUniqueId().toString() + ".inAdmin") == true) {
-            sender.sendMessage(ChatColor.GOLD + "You must be in " + ChatColor.GREEN + "PLAY" + ChatColor.GOLD + " mode to use this command!");
-            return true;
-        }
-                
-        sender_p.setGameMode(GameMode.SPECTATOR);
-        return true;
-    }
+		ConfigExe configu = plugin.configs.getMainConfig();
+		FileConfiguration configs = configu.getConfig();
+
+		if (!sender.hasPermission("devandtesting.admin")) {
+			plugin.noperms.nope(sender);
+			return true;
+		}
+
+		if (configs.getBoolean(sender_p.getUniqueId().toString() + ".inAdmin") == true) {
+			sender.sendMessage(ChatColor.GOLD + "You must be in " + ChatColor.GREEN + "PLAY" + ChatColor.GOLD
+					+ " mode to use this command!");
+			return true;
+		}
+
+		sender_p.setGameMode(GameMode.SPECTATOR);
+		return true;
+	}
 
 }

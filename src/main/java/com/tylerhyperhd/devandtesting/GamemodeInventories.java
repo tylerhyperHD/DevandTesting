@@ -23,34 +23,37 @@
  */
 package com.tylerhyperhd.devandtesting;
 
-import java.io.IOException;
+import org.bukkit.configuration.file.FileConfiguration;
 
-public class DevLogger {
+import me.eccentric_nz.gamemodeinventories.GameModeInventories;
+
+public class GamemodeInventories {
 
 	private final DevandTesting plugin;
 
-	public DevLogger(DevandTesting plugin) {
+	public GamemodeInventories(DevandTesting plugin) {
 		this.plugin = plugin;
 	}
 
-	public void warning(String msg) {
-		plugin.getLogger().warning(msg);
+	public void getRidOfGMStuff() {
+		FileConfiguration gminvconfig = GameModeInventories.plugin.getConfig();
+		gminvconfig.set("dont_spam_chat", false);
+		gminvconfig.set("no_drops", false);
+		gminvconfig.set("no_falling_drops", false);
+		gminvconfig.set("no_pickups", false);
+		gminvconfig.set("remove_potions", true);
+		gminvconfig.set("restrict_creative", false);
+		gminvconfig.set("save_on_death", false);
+		gminvconfig.set("survival_on_world_change", false);
+		gminvconfig.set("track_creative_place.enabled", false);
+		gminvconfig.set("bypass.inventories", false);
+		gminvconfig.set("creative_blacklist", false);
+		gminvconfig.set("break_bedrock", true);
+		gminvconfig.set("command_blacklist", false);
+		gminvconfig.set("restrict_spectator", false);
+		gminvconfig.set("bypass.items", false);
+		gminvconfig.set("armor", true);
+		GameModeInventories.plugin.saveConfig();
+		plugin.logger.info("DevandTesting prevents editing GMInv configs for a reason. Don't touch them.");
 	}
-
-	public void info(String msg) {
-		plugin.getLogger().warning(msg);
-	}
-
-	public void warning(IOException ex) {
-		plugin.getLogger().warning(ex.toString());
-	}
-
-	public void severe(String msg) {
-		plugin.getLogger().severe(msg);
-	}
-
-	public void severe(Exception ex) {
-		plugin.getLogger().severe(ex.toString());
-	}
-
 }

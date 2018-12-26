@@ -23,54 +23,54 @@
  */
 package com.tylerhyperhd.devandtesting.Commands;
 
-import com.tylerhyperhd.devandtesting.DevandTesting;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Entity;
-import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+import com.tylerhyperhd.devandtesting.DevandTesting;
 
 public class Command_lagg implements CommandExecutor {
 
-    private final DevandTesting plugin;
+	private final DevandTesting plugin;
 
-    public Command_lagg(DevandTesting plugin) {
-        this.plugin = plugin;
-    }
+	public Command_lagg(DevandTesting plugin) {
+		this.plugin = plugin;
+	}
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-        Player sender_p = (Player) sender;
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
+		Player sender_p = (Player) sender;
 
-        if (args.length == 0) {
-            sender.sendMessage(ChatColor.GREEN + "Running DevandTesting v" + DevandTesting.version);
-            return false;
-        }
+		if (args.length == 0) {
+			sender.sendMessage(ChatColor.GREEN + "Running DevandTesting v" + DevandTesting.version);
+			return false;
+		}
 
-        if (args.length == 1) {
-            if (!sender.hasPermission("devandtesting.admin")) {
-                plugin.noperms.nope(sender);
-                return true;
-            }
-            // Separate the if statement to prevent permissions from not working
-            
-            if (args[0].equalsIgnoreCase("clear")) {     // Clear all entities to remove lag
-                int count = 0;
-                for (Entity entity : sender_p.getWorld().getEntities()) {
-                    if (!(entity instanceof Player)) {
-                        entity.remove();
-                        count++;
-                    }
-                }
-                sender.sendMessage(ChatColor.RED + "Removed " + count + " entities!");
-                return true;
-            }
-            else if (args[0].equalsIgnoreCase("kill")) {
-            	
-            }
-            
-        }
-        return false;
-    }
+		if (args.length == 1) {
+			if (!sender.hasPermission("devandtesting.admin")) {
+				plugin.noperms.nope(sender);
+				return true;
+			}
+			// Separate the if statement to prevent permissions from not working
+
+			if (args[0].equalsIgnoreCase("clear")) { // Clear all entities to remove lag
+				int count = 0;
+				for (Entity entity : sender_p.getWorld().getEntities()) {
+					if (!(entity instanceof Player)) {
+						entity.remove();
+						count++;
+					}
+				}
+				sender.sendMessage(ChatColor.RED + "Removed " + count + " entities!");
+				return true;
+			} else if (args[0].equalsIgnoreCase("kill")) {
+
+			}
+
+		}
+		return false;
+	}
 }

@@ -45,6 +45,10 @@ commands:
   pkillswitch:
     description: Disables all plugins except DevandTesting OR disables all plugins.
     usage: /<command> [everything]
+  clearchat:
+    description: Clears the entire chat.
+    usage: /<command>
+    aliases: [cc]
   purple:
     description: Insane only command. Graces the world with purple.
     usage: /<command>

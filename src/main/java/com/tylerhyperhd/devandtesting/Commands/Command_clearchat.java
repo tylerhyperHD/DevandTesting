@@ -21,13 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.tylerhyperhd.devandtesting;
+package com.tylerhyperhd.devandtesting.Commands;
 
-import java.util.HashMap;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 
-public class InvHandler {
+import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.PermType;
 
-	public HashMap<Player, ItemStack[][]> inv_store = new HashMap<Player, ItemStack[][]>();
+public class Command_clearchat implements CommandExecutor {
+
+	private final DevandTesting plugin;
+
+	public Command_clearchat(DevandTesting plugin) {
+		this.plugin = plugin;
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
+		if (plugin.getExtensions().senderIsConsole(sender)) {
+			sender.sendMessage("You must be in-game to use this command.");
+			return true;
+		} else if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
+			plugin.noperms.nope(sender);
+			return true;
+		}
+
+		for (int i = 0; i <= 20; i++) {
+			Bukkit.broadcastMessage("");
+		}
+		Bukkit.broadcastMessage(ChatColor.GOLD + "Chat cleared!");
+		return true;
+	}
+
 }

@@ -29,20 +29,20 @@ public class ConfigLoader {
 
 	private static ConfigExe mainconfig;
 
-	public ConfigLoader() {
-		mainconfig = new ConfigExe(DevandTesting.plugin, "config.yml");
+	public ConfigLoader(DevandTesting plugin) {
+		mainconfig = new ConfigExe(plugin, "config.yml");
 		mainconfig.saveDefaultConfig();
 	}
 
 	public ConfigExe getMainConfig() {
 		return mainconfig;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<String> getOverlords() {
 		return (List<String>) mainconfig.getConfig().get("Overlords");
 	}
-	
+
 	public boolean isInsaneModeEnabled() {
 		return mainconfig.getConfig().getBoolean("insaneModeEnabled");
 	}

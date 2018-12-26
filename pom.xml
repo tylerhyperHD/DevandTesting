@@ -20,6 +20,10 @@
 			<id>spigot</id>
 			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
 		</repository>
+		<repository>
+            <id>Bromley Massive</id>
+            <url>http://tardisjenkins.duckdns.org:8080/plugin/repository/everything/</url>
+        </repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -28,6 +32,12 @@
 			<version>latest</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/spigot.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>me.eccentric_nz.gamemodeinventories</groupId>
+			<artifactId>GameModeInventories</artifactId>
+			<version>3.0</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 

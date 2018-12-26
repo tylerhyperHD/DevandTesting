@@ -23,6 +23,13 @@
  */
 package com.tylerhyperhd.devandtesting;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import com.tylerhyperhd.devandtesting.Commands.Command_admin;
 import com.tylerhyperhd.devandtesting.Commands.Command_color;
 import com.tylerhyperhd.devandtesting.Commands.Command_creative;
@@ -32,36 +39,35 @@ import com.tylerhyperhd.devandtesting.Commands.Command_kill;
 import com.tylerhyperhd.devandtesting.Commands.Command_lagg;
 import com.tylerhyperhd.devandtesting.Commands.Command_multirun;
 import com.tylerhyperhd.devandtesting.Commands.Command_pkillswitch;
+import com.tylerhyperhd.devandtesting.Commands.Command_spectator;
 import com.tylerhyperhd.devandtesting.Commands.Command_survival;
 import com.tylerhyperhd.devandtesting.Commands.Command_website;
-import com.tylerhyperhd.devandtesting.Commands.Command_spectator;
+import com.tylerhyperhd.devandtesting.Commands.NoPerms;
 import com.tylerhyperhd.devandtesting.Listener.ColorListener;
 import com.tylerhyperhd.devandtesting.Listener.InsaneListener;
 import com.tylerhyperhd.devandtesting.Listener.TestingListener;
-import com.tylerhyperhd.devandtesting.Commands.NoPerms;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class DevandTesting extends JavaPlugin {
 
-	public static DevandTesting plugin;
+	public DevandTesting plugin;
 	public NoPerms noperms;
-	public static DevLogger logger;
+	public DevLogger logger;
 	public ConfigLoader configs;
-	public static InvHandler inv;
 	public static String version;
 	public static List<String> admin = new ArrayList<String>();
+	public CommandExtensions extensions;
+	public GamemodeInventories gminvs;
+	@SuppressWarnings("unused")
+	private ColorMeBitch cmb;
 
 	@Override
 	public void onLoad() {
-		DevandTesting.plugin = this;
+		plugin = this;
 		DevandTesting.version = plugin.getDescription().getVersion();
-		this.noperms = new NoPerms(plugin);
-		DevandTesting.logger = new DevLogger(plugin);
+		noperms = new NoPerms(plugin);
+		logger = new DevLogger(plugin);
+		extensions = new CommandExtensions(plugin);
+		cmb = new ColorMeBitch(plugin);
 	}
 
 	@Override
@@ -75,8 +81,7 @@ public class DevandTesting extends JavaPlugin {
 			logger.info("Alpha builds are prone to huge issues and instability.");
 			logger.info("Please proceed with caution as there is no support for these builds.");
 			logger.info("=====================================");
-		}
-		else if (version.contains("BETA")) {
+		} else if (version.contains("BETA")) {
 			logger.info("=====================================");
 			logger.info("Notice: DevandTesting is in BETA");
 			logger.info("There might be issues related to this build not solved.");
@@ -84,8 +89,7 @@ public class DevandTesting extends JavaPlugin {
 			logger.info("=====================================");
 		}
 
-		configs = new ConfigLoader();
-		inv = new InvHandler();
+		configs = new ConfigLoader(plugin);
 		plugin.getCommand("gamemode").setExecutor(new Command_gamemode(plugin));
 		plugin.getCommand("admin").setExecutor(new Command_admin(plugin));
 		plugin.getCommand("creative").setExecutor(new Command_creative(plugin));
@@ -98,21 +102,35 @@ public class DevandTesting extends JavaPlugin {
 		plugin.getCommand("dab").setExecutor(new Command_dab(plugin));
 		plugin.getCommand("spectator").setExecutor(new Command_spectator(plugin));
 		plugin.getCommand("pkillswitch").setExecutor(new Command_pkillswitch(plugin));
+		plugin.getCommand("clearchat").setExecutor(new Command_pkillswitch(plugin));
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvents(new TestingListener(plugin), plugin);
-		pm.registerEvents(new ColorListener(), plugin);
-		
-		if(configs.isInsaneModeEnabled()) {
-			logger.warning("Insane mode can be triggered right now. This might cause server chaos if it is toggled, so be careful.");
+		pm.registerEvents(new ColorListener(plugin), plugin);
+
+		if (configs.isInsaneModeEnabled()) {
+			logger.warning(
+					"Insane mode can be triggered right now. This might cause server chaos if it is toggled, so be careful.");
 			pm.registerEvents(new InsaneListener(plugin), plugin);
 		}
-		
+
+		if (pm.isPluginEnabled("GameModeInventories")) {
+			logger.info("GameModeInventories detected, loading support classes...");
+			gminvs = new GamemodeInventories(plugin);
+			gminvs.getRidOfGMStuff();
+		} else {
+			logger.warning("GameModeInventories not enabled -- this disables admin inventory switch support. Beware.");
+		}
 	}
 
 	@Override
 	public void onDisable() {
 		logger.info("Chill out. I'm disabled.");
 		Bukkit.getServer().getScheduler().cancelTasks(plugin);
+	}
+
+	// I know I don't have to create this yet it makes the code look nicer
+	public CommandExtensions getExtensions() {
+		return extensions;
 	}
 }

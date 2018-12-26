@@ -23,36 +23,37 @@
  */
 package com.tylerhyperhd.devandtesting.Commands;
 
-import com.tylerhyperhd.devandtesting.DevandTesting;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.tylerhyperhd.devandtesting.DevandTesting;
+
 public class Command_gamemode implements CommandExecutor {
 
-    private final DevandTesting plugin;
+	private final DevandTesting plugin;
 
-    public Command_gamemode(DevandTesting plugin) {
-        this.plugin = plugin;
-    }
+	public Command_gamemode(DevandTesting plugin) {
+		this.plugin = plugin;
+	}
 
-    @SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	@Override
-    public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-        Player sender_p = (Player) sender;
+	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
+		Player sender_p = (Player) sender;
 
-        if (!sender.hasPermission("devandtesting.admin")) {
-            plugin.noperms.nope(sender);
-            return true;
-        }
+		if (!sender.hasPermission("devandtesting.admin")) {
+			plugin.noperms.nope(sender);
+			return true;
+		}
 
-        if (args.length == 0) {
-            sender.sendMessage(ChatColor.RED + "Do /admin to change your gamemode.");
-            return true;
-        }
-        return true;
-    }
+		if (args.length == 0) {
+			sender.sendMessage(ChatColor.RED + "Do /admin to change your gamemode.");
+			return true;
+		}
+		return true;
+	}
 
 }

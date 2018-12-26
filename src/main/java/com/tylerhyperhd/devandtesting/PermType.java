@@ -21,30 +21,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.tylerhyperhd.devandtesting.Commands;
+package com.tylerhyperhd.devandtesting;
 
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-
-import com.tylerhyperhd.devandtesting.DevandTesting;
-
-public class Command_website implements CommandExecutor {
-
-	@SuppressWarnings("unused")
-	private final DevandTesting plugin;
-
-	public Command_website(DevandTesting plugin) {
-		this.plugin = plugin;
-	}
-
-	@Override
-	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-		sender.sendMessage(ChatColor.GOLD + "#####################");
-		sender.sendMessage(ChatColor.GREEN + "Our website: Unknown");
-		sender.sendMessage(ChatColor.GOLD + "#####################");
-		return true;
-	}
-
+public enum PermType {
+	ADMIN, COLOR, ADMIN_OTHERS, INSANE
 }
