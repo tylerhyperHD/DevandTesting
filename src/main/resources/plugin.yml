@@ -3,6 +3,7 @@ main: com.tylerhyperhd.devandtesting.DevandTesting
 version: 1.3.1-ALPHA
 author: tylerhyperHD
 description: Made to test a server and its capabilities.
+softdepend: [GameModeInventories]
 commands:
   creative:
     description: Sets your gamemode to creative.
