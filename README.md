@@ -1,8 +1,6 @@
-# DevandTesting
+# DevandTesting [![Build Status](https://travis-ci.org/tylerhyperHD/DevandTesting.svg?branch=master)](https://travis-ci.org/tylerhyperHD/DevandTesting)
 
 This plugin used to be the private plugin that I wouldn't share with anyone back with freedom mods. Now, it's public, and it's better than ever.
-
-***
 
 ## Features
 - /admin - to change your gamemode. That's all there is to it, plus it's fully customizable.
