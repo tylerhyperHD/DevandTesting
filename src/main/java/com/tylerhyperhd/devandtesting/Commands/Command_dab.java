@@ -30,6 +30,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.PermType;
 
 public class Command_dab implements CommandExecutor {
 
@@ -43,9 +44,8 @@ public class Command_dab implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
 		Player sender_p = (Player) sender;
 
-		if (!sender.hasPermission("devandtesting.admin")) {
-			plugin.noperms.nope(sender);
-			return true;
+		if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
+			return plugin.getPermMsg().nope(sender);
 		}
 
 		sender_p.chat("dab");

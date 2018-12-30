@@ -33,6 +33,7 @@ import org.bukkit.entity.Player;
 
 import com.tylerhyperhd.devandtesting.ConfigExe;
 import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.PermType;
 
 public class Command_spectator implements CommandExecutor {
 
@@ -49,12 +50,11 @@ public class Command_spectator implements CommandExecutor {
 		ConfigExe configu = plugin.configs.getMainConfig();
 		FileConfiguration configs = configu.getConfig();
 
-		if (!sender.hasPermission("devandtesting.admin")) {
-			plugin.noperms.nope(sender);
-			return true;
+		if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
+			return plugin.getPermMsg().nope(sender);
 		}
 
-		if (configs.getBoolean(sender_p.getUniqueId().toString() + ".inAdmin") == true) {
+		if (configs.getBoolean(sender_p.getUniqueId().toString() + ".inAdmin")) {
 			sender.sendMessage(ChatColor.GOLD + "You must be in " + ChatColor.GREEN + "PLAY" + ChatColor.GOLD
 					+ " mode to use this command!");
 			return true;

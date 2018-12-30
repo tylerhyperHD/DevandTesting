@@ -31,6 +31,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.tylerhyperhd.devandtesting.Commands.Command_admin;
+import com.tylerhyperhd.devandtesting.Commands.Command_clearchat;
 import com.tylerhyperhd.devandtesting.Commands.Command_color;
 import com.tylerhyperhd.devandtesting.Commands.Command_creative;
 import com.tylerhyperhd.devandtesting.Commands.Command_dab;
@@ -43,6 +44,7 @@ import com.tylerhyperhd.devandtesting.Commands.Command_spectator;
 import com.tylerhyperhd.devandtesting.Commands.Command_survival;
 import com.tylerhyperhd.devandtesting.Commands.Command_website;
 import com.tylerhyperhd.devandtesting.Commands.NoPerms;
+import com.tylerhyperhd.devandtesting.InsaneBranch.InsaneMode;
 import com.tylerhyperhd.devandtesting.Listener.ColorListener;
 import com.tylerhyperhd.devandtesting.Listener.InsaneListener;
 import com.tylerhyperhd.devandtesting.Listener.TestingListener;
@@ -50,7 +52,7 @@ import com.tylerhyperhd.devandtesting.Listener.TestingListener;
 public class DevandTesting extends JavaPlugin {
 
 	public DevandTesting plugin;
-	public NoPerms noperms;
+	private NoPerms noperms;
 	public DevLogger logger;
 	public ConfigLoader configs;
 	public static String version;
@@ -64,7 +66,7 @@ public class DevandTesting extends JavaPlugin {
 	public void onLoad() {
 		plugin = this;
 		DevandTesting.version = plugin.getDescription().getVersion();
-		noperms = new NoPerms(plugin);
+		noperms = new NoPerms();
 		logger = new DevLogger(plugin);
 		extensions = new CommandExtensions(plugin);
 		cmb = new ColorMeBitch(plugin);
@@ -102,7 +104,7 @@ public class DevandTesting extends JavaPlugin {
 		plugin.getCommand("dab").setExecutor(new Command_dab(plugin));
 		plugin.getCommand("spectator").setExecutor(new Command_spectator(plugin));
 		plugin.getCommand("pkillswitch").setExecutor(new Command_pkillswitch(plugin));
-		plugin.getCommand("clearchat").setExecutor(new Command_pkillswitch(plugin));
+		plugin.getCommand("clearchat").setExecutor(new Command_clearchat(plugin));
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvents(new TestingListener(plugin), plugin);
@@ -125,6 +127,7 @@ public class DevandTesting extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		InsaneMode.runDisableTasks();
 		logger.info("Chill out. I'm disabled.");
 		Bukkit.getServer().getScheduler().cancelTasks(plugin);
 	}
@@ -132,5 +135,9 @@ public class DevandTesting extends JavaPlugin {
 	// I know I don't have to create this yet it makes the code look nicer
 	public CommandExtensions getExtensions() {
 		return extensions;
+	}
+	
+	public NoPerms getPermMsg() {
+		return noperms;
 	}
 }

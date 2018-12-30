@@ -3,8 +3,6 @@
  */
 package com.tylerhyperhd.devandtesting.Commands;
 
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -24,11 +22,8 @@ public class Command_multirun implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-		List<String> OVERLORDS = plugin.configs.getOverlords();
-
-		if (!OVERLORDS.contains(sender.getName())) {
-			plugin.noperms.nope(sender);
-			return true;
+		if (!plugin.configs.getOverlords().contains(sender.getName())) {
+			return plugin.getPermMsg().nope(sender);
 		}
 		if (args.length < 2) {
 			return false;

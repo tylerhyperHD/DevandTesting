@@ -1,3 +1,5 @@
 #Main config for Dev and Testing by tylerhyperHD#
 insaneModeEnabled: false
-Overlords: tylerhyperHD, DDiS
+Overlords:
+    - tylerhyperHD
+    - DDiS

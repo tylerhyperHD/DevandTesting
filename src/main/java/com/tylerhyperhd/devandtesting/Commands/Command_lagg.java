@@ -31,6 +31,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.PermType;
 
 public class Command_lagg implements CommandExecutor {
 
@@ -50,9 +51,8 @@ public class Command_lagg implements CommandExecutor {
 		}
 
 		if (args.length == 1) {
-			if (!sender.hasPermission("devandtesting.admin")) {
-				plugin.noperms.nope(sender);
-				return true;
+			if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
+				return plugin.getPermMsg().nope(sender);
 			}
 			// Separate the if statement to prevent permissions from not working
 

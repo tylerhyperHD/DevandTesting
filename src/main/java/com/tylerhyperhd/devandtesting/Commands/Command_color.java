@@ -36,7 +36,7 @@ public class Command_color implements CommandExecutor {
 
 	private final DevandTesting plugin;
 
-	public String PREFIX = ChatColor.GOLD + "[DevandTesting]";
+	public String PREFIX = ChatColor.GOLD + "[DevandTesting] ";
 
 	public Command_color(DevandTesting plugin) {
 		this.plugin = plugin;
@@ -46,8 +46,7 @@ public class Command_color implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
 
 		if (plugin.getExtensions().hasNoPermsTo(PermType.COLOR, sender)) {
-			plugin.noperms.nope(sender);
-			return true;
+			return plugin.getPermMsg().nope(sender);
 		}
 
 		if (args.length == 0) {

@@ -61,15 +61,13 @@ public class Command_admin implements CommandExecutor {
 			plugin.logger.info(ChatColor.GOLD + "Admin command is disabled for them now since it was temp admin.");
 			sender.sendMessage("Your gamemode has been updated.");
 		} else if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
-			plugin.noperms.nope(sender);
-			return true;
+			return plugin.getPermMsg().nope(sender);
 		}
 
 		if (args.length == 0) {
 			if (sender_p.getGameMode().equals(GameMode.SPECTATOR)) {
 				if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
-					plugin.noperms.nope(sender);
-					return true;
+					return plugin.getPermMsg().nope(sender);
 				}
 				sender.sendMessage(ChatColor.GOLD + "You were put in " + ChatColor.RED + "ADMIN" + ChatColor.GOLD
 						+ " mode because of being in spectator mode.");
@@ -86,8 +84,7 @@ public class Command_admin implements CommandExecutor {
 				return true;
 			} else if (!(configs.getBoolean(sender_p.getUniqueId().toString() + ".inAdmin"))) {
 				if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
-					plugin.noperms.nope(sender);
-					return true;
+					return plugin.getPermMsg().nope(sender);
 				}
 				configs.set(sender_p.getUniqueId().toString() + ".inAdmin", true);
 				configu.saveConfig();
@@ -100,8 +97,7 @@ public class Command_admin implements CommandExecutor {
 				return true;
 			} else {
 				if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
-					plugin.noperms.nope(sender);
-					return true;
+					return plugin.getPermMsg().nope(sender);
 				}
 				configs.set(sender_p.getUniqueId().toString() + ".inAdmin", false);
 				configu.saveConfig();
@@ -116,8 +112,7 @@ public class Command_admin implements CommandExecutor {
 
 		} else if (args.length > 1) { // Admin support
 			if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN_OTHERS, sender)) {
-				plugin.noperms.nope(sender);
-				return true;
+				return plugin.getPermMsg().nope(sender);
 			}
 
 			Player player = Bukkit.getPlayer(args[0]);

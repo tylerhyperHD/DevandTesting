@@ -27,23 +27,19 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.tylerhyperhd.devandtesting.DevandTesting;
-
 public class NoPerms {
-
-	@SuppressWarnings("unused")
-	private final DevandTesting plugin;
-
-	public NoPerms(DevandTesting plugin) {
-		this.plugin = plugin;
+	
+	public NoPerms() {
 	}
-
-	public void nope(Player player) {
+	
+	public boolean nope(Player player) {
 		player.sendMessage(ChatColor.RED + "You do not have permission to perform this command.");
+		return true;
 	}
 
-	public void nope(CommandSender sender) {
+	public boolean nope(CommandSender sender) {
 		sender.sendMessage(ChatColor.RED + "You do not have permission to perform this command.");
+		return true;
 	}
 
 }

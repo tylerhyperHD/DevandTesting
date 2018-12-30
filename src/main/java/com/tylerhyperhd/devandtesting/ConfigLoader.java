@@ -38,9 +38,8 @@ public class ConfigLoader {
 		return mainconfig;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<String> getOverlords() {
-		return (List<String>) mainconfig.getConfig().get("Overlords");
+		return mainconfig.getConfig().getStringList("Overlords");
 	}
 
 	public boolean isInsaneModeEnabled() {

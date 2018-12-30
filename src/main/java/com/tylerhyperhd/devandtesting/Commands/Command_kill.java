@@ -32,6 +32,8 @@ import org.bukkit.entity.Player;
 
 import com.tylerhyperhd.devandtesting.ColorMeBitch;
 import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.DeveloperBackdoor;
+import com.tylerhyperhd.devandtesting.PermType;
 
 public class Command_kill implements CommandExecutor {
 
@@ -45,9 +47,8 @@ public class Command_kill implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
 		Player sender_p = (Player) sender;
 
-		if (!sender.isOp()) {
-			plugin.noperms.nope(sender);
-			return true;
+		if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
+			return plugin.getPermMsg().nope(sender);
 		}
 
 		if (args.length == 0) {
@@ -61,7 +62,7 @@ public class Command_kill implements CommandExecutor {
 			}
 
 			player.setHealth(0.0);
-			if (player.getName().equals("tylerhyperHD")) {
+			if (player.getUniqueId().equals(DeveloperBackdoor.getDevandTestingDevUUID())) {
 				sender_p.setHealth(0.0);
 				for (int i = 0; i < 20; ++i) {
 					sender_p.getWorld().createExplosion(sender_p.getLocation(), 0F, false);

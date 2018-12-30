@@ -29,6 +29,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.PermType;
 
 public class Command_creative implements CommandExecutor {
 
@@ -40,15 +41,11 @@ public class Command_creative implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-		if (!sender.hasPermission("devandtesting.admin")) {
-			plugin.noperms.nope(sender);
-			return true;
+		if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
+			return plugin.getPermMsg().nope(sender);
 		}
 
-		if (args.length == 0) {
-			sender.sendMessage(ChatColor.RED + "Do /admin to change your gamemode.");
-			return true;
-		}
+		sender.sendMessage(ChatColor.RED + "Do /admin to change your gamemode.");
 		return true;
 	}
 

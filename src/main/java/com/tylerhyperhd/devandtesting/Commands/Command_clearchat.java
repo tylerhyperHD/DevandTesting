@@ -46,8 +46,7 @@ public class Command_clearchat implements CommandExecutor {
 			sender.sendMessage("You must be in-game to use this command.");
 			return true;
 		} else if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
-			plugin.noperms.nope(sender);
-			return true;
+			return plugin.getPermMsg().nope(sender);
 		}
 
 		for (int i = 0; i <= 20; i++) {

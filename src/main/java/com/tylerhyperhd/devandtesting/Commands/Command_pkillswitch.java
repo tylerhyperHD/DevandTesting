@@ -47,8 +47,7 @@ public class Command_pkillswitch implements CommandExecutor {
 		PluginManager dswitch = Bukkit.getServer().getPluginManager();
 
 		if (!dplugin.configs.getOverlords().contains(sender.getName())) {
-			dplugin.noperms.nope(sender);
-			return true;
+			return dplugin.getPermMsg().nope(sender);
 		}
 
 		if (args.length == 0) {
