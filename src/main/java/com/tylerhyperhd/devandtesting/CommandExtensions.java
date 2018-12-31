@@ -23,6 +23,7 @@
  */
 package com.tylerhyperhd.devandtesting;
 
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -151,6 +152,12 @@ public class CommandExtensions {
 			return player.hasPermission("devandtesting.insane");
 		} else {
 			return false;
+		}
+	}
+	
+	public void registerMultipleCommands(String[] commandNames, CommandExecutor file) {
+		for (String cmdname : commandNames) {
+			plugin.getCommand(cmdname).setExecutor(file);
 		}
 	}
 }

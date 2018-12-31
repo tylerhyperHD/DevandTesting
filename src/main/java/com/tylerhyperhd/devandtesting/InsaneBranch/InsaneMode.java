@@ -37,22 +37,31 @@ public class InsaneMode {
 	// Private init to allow static disable tasks method
 	private static InsaneMode insane;
 	private final DevandTesting plugin;
-	public PurpleCalmer pcalmer;
+	private PurpleCalmer pcalmer;
 	public boolean initialized;
 	private boolean gameruleChanged;
+	private boolean invChanged;
 
 	public InsaneMode(DevandTesting plugin) {
 		this.plugin = plugin;
 		InsaneMode.insane = this;
 	}
-	
+
 	// This method will never be used, so we aren't using it here
 	@SuppressWarnings("unused")
 	private InsaneMode(DevandTesting plugin, PurpleCalmer pcalmer) {
 		this.plugin = plugin;
 	}
 
-	
+	/**
+	 * Gets the purple calmer class to generate purple stuff.
+	 * 
+	 * @return Purple Calmer method
+	 */
+	public PurpleCalmer getPurpleStuff() {
+		return pcalmer;
+	}
+
 // TODO: Might implement this if I need to in the future.	
 //	public static InsaneMode getInstance() {
 //		if (insane.initialized) {
@@ -62,21 +71,27 @@ public class InsaneMode {
 //			return null;
 //		}
 //	}
-	
+
 	/**
 	 * Initializes all insane commands from the listener.
 	 */
 	public void initializeInsaneMode() {
-		this.pcalmer = new PurpleCalmer(this);
+		this.pcalmer = new PurpleCalmer();
 		plugin.getCommand("purple").setExecutor(new Command_purple(plugin, this));
 		plugin.getCommand("blowup").setExecutor(new Command_blowup(plugin));
 		plugin.getServer().getPluginManager().registerEvents(new InsaneChaosCalmer(this), plugin);
 		for (World world : Bukkit.getWorlds()) {
-			if (world.getGameRuleValue(GameRule.DO_ENTITY_DROPS)) {
-				world.setGameRule(GameRule.DO_ENTITY_DROPS, false);
+			if (world.getGameRuleValue(GameRule.DO_MOB_LOOT)) {
+				world.setGameRule(GameRule.DO_MOB_LOOT, false);
 				plugin.getLogger()
 						.warning(world.getName() + " had entity drops on. For your safety, this has been turned off.");
 				gameruleChanged = true;
+			}
+			// Not using else if due to us wanting to find both of these
+			if (!(world.getGameRuleValue(GameRule.KEEP_INVENTORY))) {
+				world.setGameRule(GameRule.KEEP_INVENTORY, true);
+				plugin.getLogger().warning("Keeping inventory was set to true in world " + world.getName() + " to prevent issues.");
+				invChanged = true;
 			}
 		}
 		initialized = true;
@@ -86,10 +101,16 @@ public class InsaneMode {
 		if (insane.initialized) {
 			if (insane.gameruleChanged) {
 				for (World world : Bukkit.getWorlds()) {
-					world.setGameRule(GameRule.DO_ENTITY_DROPS, true);
-					insane.plugin.getLogger().warning(
-							"Since we had entity drops off and you had it on previously, they have been switched back on.");
+					world.setGameRule(GameRule.DO_MOB_LOOT, true);
 				}
+				insane.plugin.getLogger().warning(
+						"Since we had entity drops off and you had it on previously, they have been switched back on.");
+			}
+			if(insane.invChanged) {
+				for (World world : Bukkit.getWorlds()) {
+					world.setGameRule(GameRule.KEEP_INVENTORY, false);
+				}
+				insane.plugin.getLogger().info("Keep inventory has been fixed now.");
 			}
 
 			for (Player player : Bukkit.getOnlinePlayers()) {

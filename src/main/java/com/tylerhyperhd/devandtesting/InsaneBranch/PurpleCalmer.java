@@ -38,12 +38,23 @@ import com.tylerhyperhd.devandtesting.InsaneBranch.Commands.Command_purple;
 // This class was made to make the purple inventory vanish on server restart without issues.
 public class PurpleCalmer {
 
-	public ItemStack camwool;
-	private final InsaneMode insane;
+	// Makes constructors of these items
+	public ItemStack CamWool;
+	public ItemStack CamBow;
+	public ItemStack CamSword;
+	public ItemStack CamArrow;
+	public ItemStack CamChest;
+	public ItemStack CamLegs;
+	public ItemStack CamBoots;
 
-	public PurpleCalmer(InsaneMode insane) {
-		this.insane = insane;
-		this.camwool = getCamWool();
+	public PurpleCalmer() {
+		this.CamWool = getCamWool();
+		this.CamBow = getCamBow();
+		this.CamSword = getCamSword();
+		this.CamArrow = getCamArrow();
+		this.CamChest = getCamChestplate();
+		this.CamLegs = getCamLeggings();
+		this.CamBoots = getCamBoots();
 	}
 
 	public ItemStack getCamWool() {

@@ -44,6 +44,7 @@ import com.tylerhyperhd.devandtesting.Commands.Command_spectator;
 import com.tylerhyperhd.devandtesting.Commands.Command_survival;
 import com.tylerhyperhd.devandtesting.Commands.Command_website;
 import com.tylerhyperhd.devandtesting.Commands.NoPerms;
+import com.tylerhyperhd.devandtesting.InsaneBranch.CommandsDisabled;
 import com.tylerhyperhd.devandtesting.InsaneBranch.InsaneMode;
 import com.tylerhyperhd.devandtesting.Listener.ColorListener;
 import com.tylerhyperhd.devandtesting.Listener.InsaneListener;
@@ -59,8 +60,6 @@ public class DevandTesting extends JavaPlugin {
 	public static List<String> admin = new ArrayList<String>();
 	public CommandExtensions extensions;
 	public GamemodeInventories gminvs;
-	@SuppressWarnings("unused")
-	private ColorMeBitch cmb;
 
 	@Override
 	public void onLoad() {
@@ -69,7 +68,7 @@ public class DevandTesting extends JavaPlugin {
 		noperms = new NoPerms();
 		logger = new DevLogger(plugin);
 		extensions = new CommandExtensions(plugin);
-		cmb = new ColorMeBitch(plugin);
+		new ColorMeBitch(plugin);
 	}
 
 	@Override
@@ -92,10 +91,16 @@ public class DevandTesting extends JavaPlugin {
 		}
 
 		configs = new ConfigLoader(plugin);
-		plugin.getCommand("gamemode").setExecutor(new Command_gamemode(plugin));
+		
+		// TODO: Fix command aliases the correct way instead of this
+		
+		String[] gmexts = {"gm", "egamemode", "gamemode"};
+		extensions.registerMultipleCommands(gmexts, new Command_gamemode(plugin));
 		plugin.getCommand("admin").setExecutor(new Command_admin(plugin));
-		plugin.getCommand("creative").setExecutor(new Command_creative(plugin));
-		plugin.getCommand("survival").setExecutor(new Command_survival(plugin));
+		String[] crexts = {"creative", "gmc", "ecreative"};
+		extensions.registerMultipleCommands(crexts, new Command_creative(plugin));
+		String[] survexts = {"survival", "gms", "esurvival"};
+		extensions.registerMultipleCommands(survexts, new Command_survival(plugin));
 		plugin.getCommand("website").setExecutor(new Command_website(plugin));
 		plugin.getCommand("color").setExecutor(new Command_color(plugin));
 		plugin.getCommand("kill").setExecutor(new Command_kill(plugin));
@@ -104,7 +109,8 @@ public class DevandTesting extends JavaPlugin {
 		plugin.getCommand("dab").setExecutor(new Command_dab(plugin));
 		plugin.getCommand("spectator").setExecutor(new Command_spectator(plugin));
 		plugin.getCommand("pkillswitch").setExecutor(new Command_pkillswitch(plugin));
-		plugin.getCommand("clearchat").setExecutor(new Command_clearchat(plugin));
+		String[] ccexts = {"clearchat", "cc"};
+		extensions.registerMultipleCommands(ccexts, new Command_clearchat(plugin));
 
 		PluginManager pm = plugin.getServer().getPluginManager();
 		pm.registerEvents(new TestingListener(plugin), plugin);
@@ -115,7 +121,11 @@ public class DevandTesting extends JavaPlugin {
 					"Insane mode can be triggered right now. This might cause server chaos if it is toggled, so be careful.");
 			pm.registerEvents(new InsaneListener(plugin), plugin);
 		}
-
+		
+		// Register an insane command fixer to help fix dead commands
+		String[] multicmd = {"blowup", "purple"};
+		extensions.registerMultipleCommands(multicmd, new CommandsDisabled());
+		
 		if (pm.isPluginEnabled("GameModeInventories")) {
 			logger.info("GameModeInventories detected, loading support classes...");
 			gminvs = new GamemodeInventories(plugin);

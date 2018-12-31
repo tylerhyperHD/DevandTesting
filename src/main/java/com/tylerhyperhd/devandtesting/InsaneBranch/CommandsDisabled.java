@@ -21,31 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.tylerhyperhd.devandtesting.Commands;
+package com.tylerhyperhd.devandtesting.InsaneBranch;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import com.tylerhyperhd.devandtesting.DevandTesting;
-import com.tylerhyperhd.devandtesting.PermType;
 
-public class Command_survival implements CommandExecutor {
+public class CommandsDisabled implements CommandExecutor {
 
-	private final DevandTesting plugin;
-
-	public Command_survival(DevandTesting plugin) {
-		this.plugin = plugin;
-	}
-
+	/**
+	 * This is used for when insane mode is off and a command from insane mode is ran.
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-		if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
-			return plugin.getPermMsg().nope(sender);
-		}
-
-		sender.sendMessage(ChatColor.RED + "Do /admin to change your gamemode.");
+		sender.sendMessage(ChatColor.RED + "This command doesn't work unless insane mode is on. Contact an administrator for more details.");
 		return true;
 	}
-
 }

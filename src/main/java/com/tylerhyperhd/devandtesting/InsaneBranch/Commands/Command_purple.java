@@ -32,7 +32,7 @@ public class Command_purple implements CommandExecutor {
 
 	public static ItemStack enchantAll(ItemStack type) {
 		for (Enchantment ench : Enchantment.values()) {
-			// Fixes unsafe enchantment crash issue
+			// TODO: Figure out why this isn't being added
 			if (!ench.equals(Enchantment.LOOT_BONUS_MOBS) || !ench.equals(Enchantment.LOOT_BONUS_BLOCKS)) {
 				type.addUnsafeEnchantment(ench, 32767);
 			}
@@ -42,7 +42,7 @@ public class Command_purple implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-		if (!(sender instanceof Player)) {
+		if (plugin.getExtensions().senderIsConsole(sender)) {
 			return false;
 		}
 		if (plugin.getExtensions().hasNoPermsTo(PermType.INSANE, sender)) {
@@ -55,39 +55,32 @@ public class Command_purple implements CommandExecutor {
 		if (args.length == 0) {
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				PlayerInventory inv = player.getInventory();
-				ItemStack CamWool = insane.pcalmer.getCamWool();
 				World world = player.getWorld();
 				Location loc = player.getLocation();
-				inv.setHelmet(CamWool);
 				world.strikeLightningEffect(loc);
-			}
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				World world = player.getWorld();
-				Location loc = player.getLocation();
 				// Made this code less redundant
 				for (int i = 0; i <= 8; i++) {
 					world.strikeLightningEffect(loc);
 					Bukkit.broadcastMessage(ChatColor.RED + sender.getName() + " - Gracing the world with purple!");
 				}
 				world.strikeLightningEffect(loc);
-			}
-			for (Player player : Bukkit.getOnlinePlayers()) {
-				PlayerInventory inv = player.getInventory();
-				ItemStack CamBow = insane.pcalmer.getCamBow();
+				ItemStack CamWool = insane.getPurpleStuff().getCamWool();
+				ItemStack CamBow = insane.getPurpleStuff().getCamBow();
+				ItemStack CamSword = insane.getPurpleStuff().getCamSword();
+				ItemStack CamArrow = insane.getPurpleStuff().getCamArrow();
+				ItemStack CamChest = insane.getPurpleStuff().getCamChestplate();
+				ItemStack CamLegs = insane.getPurpleStuff().getCamLeggings();
+				ItemStack CamBoots = insane.getPurpleStuff().getCamBoots();
+				inv.setHelmet(CamWool);
 				inv.addItem(CamBow);
-				ItemStack CamSword = insane.pcalmer.getCamSword();
 				inv.addItem(CamSword);
-				ItemStack CamArrow = insane.pcalmer.getCamArrow();
 				inv.addItem(CamArrow);
-				ItemStack CamChest = insane.pcalmer.getCamChestplate();
 				inv.setChestplate(CamChest);
-				ItemStack CamLegs = insane.pcalmer.getCamLeggings();
 				inv.setLeggings(CamLegs);
-				ItemStack CamBoots = insane.pcalmer.getCamBoots();
 				inv.setBoots(CamBoots);
 			}
 		}
 		return true;
-	}
 
+	}
 }

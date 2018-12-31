@@ -31,10 +31,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -54,14 +51,13 @@ public class InsaneChaosCalmer implements Listener {
 	@EventHandler
 	public void onEntityDamageEvent(EntityDamageByEntityEvent event) {
 		Entity victim = event.getEntity();
-		Entity defendent = event.getDamager();
-
 		if (!(victim.getType().equals(EntityType.PLAYER))) {
 			event.setCancelled(true);
-			victim.setVelocity(victim.getVelocity().clone().add(new Vector(0, 100, 0)));
+			victim.setFireTicks(victim.getMaxFireTicks());
+			victim.setVelocity(victim.getVelocity().clone().add(new Vector(0, 1000, 0))); // Shoot up in air
 			Location loc = victim.getLocation();
-			loc.getWorld().createExplosion(loc, 0F, false);
-			defendent.sendMessage(ChatColor.DARK_PURPLE + "Insta-kill!");
+			loc.getWorld().createExplosion(loc, 0F, false); // Make explosive noise when it happens
+			victim.remove();
 		}
 
 	}
@@ -76,34 +72,10 @@ public class InsaneChaosCalmer implements Listener {
 		Player player = event.getPlayer();
 		ItemStack itemdropped = event.getItemDrop().getItemStack();
 
-		for (ItemStack purplestuff : insane.pcalmer.getPurpleStuff()) {
+		for (ItemStack purplestuff : insane.getPurpleStuff().getPurpleStuff()) {
 			if (itemdropped.equals(purplestuff)) {
 				event.setCancelled(true);
 				player.sendMessage(ChatColor.DARK_RED + "Dropping purple items are prohibited in insane mode.");
-			}
-		}
-	}
-
-	/**
-	 * Disables moving purple items into anything.
-	 * 
-	 * @param event InventoryMoveItemEvent
-	 */
-	@EventHandler
-	public void onMoveItemEvent(InventoryMoveItemEvent event) {
-		ItemStack item = event.getItem();
-		Inventory destination = event.getDestination();
-		// Add all types except player inventory
-		InventoryType[] types = { InventoryType.ANVIL, InventoryType.BEACON, InventoryType.BREWING, InventoryType.CHEST,
-				InventoryType.CRAFTING, InventoryType.DISPENSER, InventoryType.DROPPER, InventoryType.ENCHANTING,
-				InventoryType.ENDER_CHEST, InventoryType.FURNACE, InventoryType.HOPPER, InventoryType.MERCHANT,
-				InventoryType.SHULKER_BOX, InventoryType.WORKBENCH };
-
-		for (ItemStack purplestuff : insane.pcalmer.getPurpleStuff()) {
-			for (InventoryType type : types) {
-				if (destination.getType().equals(type) && item.equals(purplestuff)) {
-					event.setCancelled(true);
-				}
 			}
 		}
 	}
