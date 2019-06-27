@@ -26,28 +26,37 @@ package com.tylerhyperhd.devandtesting.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 
-import com.tylerhyperhd.devandtesting.DevandTesting;
+public class Command_pkillswitch extends PermsManager {
 
-public class Command_pkillswitch implements CommandExecutor {
-
-	private final DevandTesting dplugin;
-
-	public Command_pkillswitch(DevandTesting plugin) {
-		this.dplugin = plugin;
+	/**
+	 * Constructs and enables the pkillswitch command.
+	 * 
+	 * @param iMgr The instance manager for the command.
+	 */
+	public Command_pkillswitch(InstanceManager iMgr) {
+		super(iMgr);
 	}
 
+	/**
+	 * 
+	 * @param sender The sender executing the command.
+	 * @param cmd The command being executed.
+	 * @param string The string associated with the command.
+	 * @param args The arguments associated with the command.
+	 * @return True if the command executed successfully, false if the command didn't execute correctly.
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
 
 		PluginManager dswitch = Bukkit.getServer().getPluginManager();
 
-		if (!dplugin.configs.getOverlords().contains(sender.getName())) {
-			return dplugin.getPermMsg().nope(sender);
+		if (!super.getInstanceMgr().getConfigs().getOverlords().contains(sender.getName())) {
+			return super.nope(sender);
 		}
 
 		if (args.length == 0) {
@@ -55,7 +64,7 @@ public class Command_pkillswitch implements CommandExecutor {
 			Bukkit.getServer().broadcastMessage(ChatColor.RED + "All plugins except one are being disabled!!!!");
 
 			for (Plugin plugin : dswitch.getPlugins()) {
-				if (!(plugin.equals(dplugin))) {
+				if (!(plugin.equals(super.getInstanceMgr().getPlugin()))) {
 					Bukkit.getServer().getLogger().warning("KILLSWITCH ACTIVATED: Disabling plugin" + plugin.getName());
 					dswitch.disablePlugin(plugin);
 				}

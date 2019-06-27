@@ -25,27 +25,37 @@ package com.tylerhyperhd.devandtesting.Commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 import com.tylerhyperhd.devandtesting.PermType;
 
-public class Command_dab implements CommandExecutor {
+public class Command_dab extends PermsManager {
 
-	private final DevandTesting plugin;
-
-	public Command_dab(DevandTesting plugin) {
-		this.plugin = plugin;
+	/**
+	 * Constructs and enables the dab command.
+	 * 
+	 * @param iMgr The instance manager for the command.
+	 */
+	public Command_dab(InstanceManager iMgr) {
+		super(iMgr);
 	}
 
+	/**
+	 * 
+	 * @param sender The sender executing the command.
+	 * @param cmd The command being executed.
+	 * @param string The string associated with the command.
+	 * @param args The arguments associated with the command.
+	 * @return True if the command executed successfully, false if the command didn't execute correctly.
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-		Player sender_p = (Player) sender;
+		Player sender_p = super.getInstanceMgr().playerSenderFix(sender);
 
-		if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
-			return plugin.getPermMsg().nope(sender);
+		if (super.getInstanceMgr().hasNoPermsTo(PermType.ADMIN, sender)) {
+			return super.nope(sender);
 		}
 
 		sender_p.chat("dab");

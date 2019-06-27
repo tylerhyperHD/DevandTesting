@@ -26,27 +26,36 @@ package com.tylerhyperhd.devandtesting.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 import com.tylerhyperhd.devandtesting.PermType;
 
-public class Command_clearchat implements CommandExecutor {
+public class Command_clearchat extends PermsManager {
 
-	private final DevandTesting plugin;
-
-	public Command_clearchat(DevandTesting plugin) {
-		this.plugin = plugin;
+	/**
+	 * Constructs and enables the clear chat command.
+	 * 
+	 * @param iMgr The instance manager for the command.
+	 */
+	public Command_clearchat(InstanceManager iMgr) {
+		super(iMgr);
 	}
 
+	/**
+	 * 
+	 * @param sender The sender executing the command.
+	 * @param cmd The command being executed.
+	 * @param string The string associated with the command.
+	 * @param args The arguments associated with the command.
+	 * @return True if the command executed successfully, false if the command didn't execute correctly.
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-		if (plugin.getExtensions().senderIsConsole(sender)) {
+		if (super.getInstanceMgr().senderIsConsole(sender)) {
 			sender.sendMessage("You must be in-game to use this command.");
 			return true;
-		} else if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
-			return plugin.getPermMsg().nope(sender);
+		} else if (super.getInstanceMgr().hasNoPermsTo(PermType.ADMIN, sender)) {
+			return super.nope(sender);
 		}
 
 		for (int i = 0; i <= 20; i++) {

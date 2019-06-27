@@ -46,7 +46,11 @@ public class PurpleCalmer {
 	public ItemStack CamChest;
 	public ItemStack CamLegs;
 	public ItemStack CamBoots;
-
+	
+	/**
+	 * 
+	 * 
+	 */
 	public PurpleCalmer() {
 		this.CamWool = getCamWool();
 		this.CamBow = getCamBow();
@@ -57,6 +61,11 @@ public class PurpleCalmer {
 		this.CamBoots = getCamBoots();
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	public ItemStack getCamWool() {
 		ItemStack CamWool = new ItemStack(Material.PURPLE_WOOL, 1);
 		Command_purple.enchantAll(CamWool);
@@ -69,6 +78,11 @@ public class PurpleCalmer {
 		return CamWool;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	public ItemStack getCamBow() {
 		ItemStack CamBow = new ItemStack(Material.BOW, 1);
 		Command_purple.enchantAll(CamBow);
@@ -81,6 +95,11 @@ public class PurpleCalmer {
 		return CamBow;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	public ItemStack getCamSword() {
 		ItemStack CamSword = new ItemStack(Material.GOLDEN_SWORD, 1);
 		Command_purple.enchantAll(CamSword);
@@ -93,6 +112,11 @@ public class PurpleCalmer {
 		return CamSword;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	public ItemStack getCamArrow() {
 		ItemStack CamArrow = new ItemStack(Material.ARROW, 1);
 		Command_purple.enchantAll(CamArrow);
@@ -105,6 +129,11 @@ public class PurpleCalmer {
 		return CamArrow;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	public ItemStack getCamChestplate() {
 		ItemStack CamChest = new ItemStack(Material.LEATHER_CHESTPLATE, 1);
 		Command_purple.enchantAll(CamChest);
@@ -118,6 +147,11 @@ public class PurpleCalmer {
 		return CamChest;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	public ItemStack getCamLeggings() {
 		ItemStack CamLegs = new ItemStack(Material.LEATHER_LEGGINGS, 1);
 		Command_purple.enchantAll(CamLegs);
@@ -131,6 +165,11 @@ public class PurpleCalmer {
 		return CamLegs;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	public ItemStack getCamBoots() {
 		ItemStack CamBoots = new ItemStack(Material.LEATHER_BOOTS, 1);
 		Command_purple.enchantAll(CamBoots);
@@ -144,6 +183,11 @@ public class PurpleCalmer {
 		return CamBoots;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
 	public ItemStack[] getPurpleStuff() {
 		ItemStack[] purple = { getCamWool(), getCamBow(), getCamSword(), getCamArrow(), getCamChestplate(),
 				getCamLeggings(), getCamBoots() };

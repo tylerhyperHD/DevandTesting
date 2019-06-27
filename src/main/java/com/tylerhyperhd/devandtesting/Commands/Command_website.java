@@ -25,20 +25,29 @@ package com.tylerhyperhd.devandtesting.Commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 
-public class Command_website implements CommandExecutor {
-
-	@SuppressWarnings("unused")
-	private final DevandTesting plugin;
-
-	public Command_website(DevandTesting plugin) {
-		this.plugin = plugin;
+public class Command_website extends PermsManager {
+	
+	/**
+	 * Constructs and enables the website command.
+	 * 
+	 * @param iMgr The instance manager for the command.
+	 */
+	public Command_website(InstanceManager iMgr) {
+		super(iMgr);
 	}
 
+	/**
+	 * 
+	 * @param sender The sender executing the command.
+	 * @param cmd The command being executed.
+	 * @param string The string associated with the command.
+	 * @param args The arguments associated with the command.
+	 * @return True if the command executed successfully, false if the command didn't execute correctly.
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
 		sender.sendMessage(ChatColor.GOLD + "#####################");

@@ -25,24 +25,34 @@ package com.tylerhyperhd.devandtesting.Commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 import com.tylerhyperhd.devandtesting.PermType;
 
-public class Command_gamemode implements CommandExecutor {
+public class Command_gamemode extends PermsManager {
 
-	private final DevandTesting plugin;
-
-	public Command_gamemode(DevandTesting plugin) {
-		this.plugin = plugin;
+	/**
+	 * Constructs and enables the gamemode command.
+	 * 
+	 * @param iMgr The instance manager for the command.
+	 */
+	public Command_gamemode(InstanceManager iMgr) {
+		super(iMgr);
 	}
 
+	/**
+	 * 
+	 * @param sender The sender executing the command.
+	 * @param cmd The command being executed.
+	 * @param string The string associated with the command.
+	 * @param args The arguments associated with the command.
+	 * @return True if the command executed successfully, false if the command didn't execute correctly.
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-		if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
-			return plugin.getPermMsg().nope(sender);
+		if (super.getInstanceMgr().hasNoPermsTo(PermType.ADMIN, sender)) {
+			return super.nope(sender);
 		}
 
 		if (args.length == 0) {

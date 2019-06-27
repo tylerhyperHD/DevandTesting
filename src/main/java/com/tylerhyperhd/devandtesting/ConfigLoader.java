@@ -27,21 +27,38 @@ import java.util.List;
 
 public class ConfigLoader {
 
-	private static ConfigExe mainconfig;
+	private ConfigExe mainconfig;
 
-	public ConfigLoader(DevandTesting plugin) {
-		mainconfig = new ConfigExe(plugin, "config.yml");
+	/**
+	 * Initializes the configs
+	 * 
+	 * @param iMgr The instance manager for the plugin
+	 */
+	public ConfigLoader(InstanceManager iMgr) {
+		mainconfig = new ConfigExe(iMgr, "config.yml");
 		mainconfig.saveDefaultConfig();
 	}
 
+	/**
+	 * Gets the main config for the plugin
+	 * @return The main config
+	 */
 	public ConfigExe getMainConfig() {
 		return mainconfig;
 	}
-
+	
+	/**
+	 * Gets the list of overlords for the plugin
+	 * @return List of overlords
+	 */
 	public List<String> getOverlords() {
 		return mainconfig.getConfig().getStringList("Overlords");
 	}
 
+	/**
+	 * Gets whether or not insane mode is enabled
+	 * @return whether or not insane mode is enabled
+	 */
 	public boolean isInsaneModeEnabled() {
 		return mainconfig.getConfig().getBoolean("insaneModeEnabled");
 	}

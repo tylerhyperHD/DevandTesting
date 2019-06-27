@@ -9,27 +9,38 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 import com.tylerhyperhd.devandtesting.PermType;
+import com.tylerhyperhd.devandtesting.Commands.PermsManager;
 import com.tylerhyperhd.devandtesting.InsaneBranch.InsaneMode;
 
 // Original command made by Camzie99. RIP Camzie.
-public class Command_purple implements CommandExecutor {
+public class Command_purple extends PermsManager {
 
-	private final DevandTesting plugin;
 	private final InsaneMode insane;
 
-	public Command_purple(DevandTesting plugin, InsaneMode insane) {
-		this.plugin = plugin;
+	/**
+	 * 
+	 * 
+	 * @param iMgr
+	 * @param insane
+	 */
+	public Command_purple(InstanceManager iMgr, InsaneMode insane) {
+		super(iMgr);
 		this.insane = insane;
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param type
+	 * @return
+	 */
 	public static ItemStack enchantAll(ItemStack type) {
 		for (Enchantment ench : Enchantment.values()) {
 			// TODO: Figure out why this isn't being added
@@ -40,12 +51,20 @@ public class Command_purple implements CommandExecutor {
 		return type;
 	}
 
+	/**
+	 * 
+	 * @param sender
+	 * @param cmd
+	 * @param string
+	 * @param args
+	 * @return
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-		if (plugin.getExtensions().senderIsConsole(sender)) {
+		if (super.getInstanceMgr().senderIsConsole(sender)) {
 			return false;
 		}
-		if (plugin.getExtensions().hasNoPermsTo(PermType.INSANE, sender)) {
+		if (super.getInstanceMgr().hasNoPermsTo(PermType.INSANE, sender)) {
 			Player sender_p = Bukkit.getPlayer(sender.getName());
 			sender_p.sendMessage(ChatColor.RED
 					+ "Only the wise may use this command.\nNo permissions for the people who aren't purple.");

@@ -17,6 +17,11 @@ public class ColorMeBitch {
 
 	private static DevandTesting plugin;
 
+	/**
+	 * Colors player chats
+	 * 
+	 * @param plugin The plugin instance of DevandTesting
+	 */
 	public ColorMeBitch(DevandTesting plugin) {
 		ColorMeBitch.plugin = plugin;
 	}
@@ -29,10 +34,21 @@ public class ColorMeBitch {
 
 	public static Random random = new Random();
 
+	/**
+	 * Gets a random chat color for the user
+	 * 
+	 * @return Random chat color
+	 */
 	public static ChatColor randomChatColor() {
 		return COLORS.get(random.nextInt(COLORS.size()));
 	}
 
+	/**
+	 * Sets the random color in place.
+	 * 
+	 * @param string The random colors stringified.
+	 * @return The random colors stringified.
+	 */
 	public static String color(String string) {
 		string = ChatColor.translateAlternateColorCodes('&', string);
 		string = string.replaceAll("&-", randomChatColor().toString());
@@ -43,6 +59,12 @@ public class ColorMeBitch {
 		attachments.put(player, player.addAttachment(plugin));
 	}
 
+	/**
+	 * Adds a permission to a player through Spigot
+	 * 
+	 * @param player The player the permission is being set to
+	 * @param permission The permission being given
+	 */
 	public static void addPermission(Player player, String permission) {
 		if (!attachments.containsKey(player)) {
 			attachPlayer(player);
@@ -51,6 +73,12 @@ public class ColorMeBitch {
 		attach.setPermission(permission, true);
 	}
 
+	/**
+	 * Removes a permission to a player through Spigot
+	 * 
+	 * @param player The player the permission is being removed from
+	 * @param permission The permission that is being removed
+	 */
 	public static void removePermission(Player player, String permission) {
 		if (!attachments.containsKey(player)) {
 			attachPlayer(player);

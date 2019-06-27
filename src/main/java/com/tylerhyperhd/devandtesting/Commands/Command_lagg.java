@@ -25,34 +25,42 @@ package com.tylerhyperhd.devandtesting.Commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-
-import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 import com.tylerhyperhd.devandtesting.PermType;
 
-public class Command_lagg implements CommandExecutor {
-
-	private final DevandTesting plugin;
-
-	public Command_lagg(DevandTesting plugin) {
-		this.plugin = plugin;
+public class Command_lagg extends PermsManager {
+	
+	/**
+	 * Constructs and enables the lagg command.
+	 * 
+	 * @param iMgr The instance manager for the command.
+	 */
+	public Command_lagg(InstanceManager iMgr) {
+		super(iMgr);
 	}
 
+	/**
+	 * 
+	 * @param sender The sender executing the command.
+	 * @param cmd The command being executed.
+	 * @param string The string associated with the command.
+	 * @param args The arguments associated with the command.
+	 * @return True if the command executed successfully, false if the command didn't execute correctly.
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-		Player sender_p = (Player) sender;
-
+		Player sender_p = super.getInstanceMgr().playerSenderFix(sender);
 		if (args.length == 0) {
-			sender.sendMessage(ChatColor.GREEN + "Running DevandTesting v" + DevandTesting.version);
+			sender.sendMessage(ChatColor.GREEN + "Running DevandTesting v" + super.getInstanceMgr().getVersion());
 			return false;
 		}
 
 		if (args.length == 1) {
-			if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
-				return plugin.getPermMsg().nope(sender);
+			if (super.getInstanceMgr().hasNoPermsTo(PermType.ADMIN, sender)) {
+				return super.nope(sender);
 			}
 			// Separate the if statement to prevent permissions from not working
 
@@ -67,7 +75,8 @@ public class Command_lagg implements CommandExecutor {
 				sender.sendMessage(ChatColor.RED + "Removed " + count + " entities!");
 				return true;
 			} else if (args[0].equalsIgnoreCase("kill")) {
-
+				// TODO: Implement this, returning false for now
+				return false;
 			}
 
 		}

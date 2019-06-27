@@ -32,6 +32,12 @@ public class CommandsDisabled implements CommandExecutor {
 
 	/**
 	 * This is used for when insane mode is off and a command from insane mode is ran.
+	 * 
+	 * @param sender
+	 * @param cmd
+	 * @param string
+	 * @param args
+	 * @return
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {

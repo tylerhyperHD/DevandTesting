@@ -29,10 +29,10 @@ import me.eccentric_nz.gamemodeinventories.GameModeInventories;
 
 public class GamemodeInventories {
 
-	private final DevandTesting plugin;
+	private final InstanceManager iMgr;
 
-	public GamemodeInventories(DevandTesting plugin) {
-		this.plugin = plugin;
+	public GamemodeInventories(InstanceManager iMgr) {
+		this.iMgr = iMgr;
 	}
 
 	public void getRidOfGMStuff() {
@@ -54,6 +54,6 @@ public class GamemodeInventories {
 		gminvconfig.set("bypass.items", false);
 		gminvconfig.set("armor", true);
 		GameModeInventories.plugin.saveConfig();
-		plugin.logger.info("DevandTesting prevents editing GMInv configs for a reason. Don't touch them.");
+		this.iMgr.getLogger().info("DevandTesting prevents editing GMInv configs for a reason. Don't touch them.");
 	}
 }

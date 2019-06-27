@@ -26,25 +26,49 @@ package com.tylerhyperhd.devandtesting.Listener;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 import com.tylerhyperhd.devandtesting.PermType;
-import com.tylerhyperhd.devandtesting.InsaneBranch.InsaneMode;
 
-public class InsaneListener implements Listener {
-
+public class InsaneListener extends ListenerController {
 	// Get confirm between methods
 	private boolean confirm = false;
-	private DevandTesting plugin;
 	// Get player between methods
 	private Player player;
 
-	public InsaneListener(DevandTesting plugin) {
-		this.plugin = plugin;
+	/**
+	 * 
+	 * 
+	 * @param iMgr
+	 */
+	public InsaneListener(InstanceManager iMgr) {
+		super(iMgr);
 	}
 
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	private boolean getConfirm() {
+		return this.confirm;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param confirm
+	 */
+	private void setConfirm(boolean confirm) {
+		this.confirm = confirm;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param event
+	 */
 	@EventHandler
 	public void onPlayerCommandExecution(PlayerCommandPreprocessEvent event) {
 		player = event.getPlayer();
@@ -52,29 +76,34 @@ public class InsaneListener implements Listener {
 		if (event.getMessage().equals("insane") || event.getMessage().equals("/insane")) {
 			event.setCancelled(true);
 
-			if (confirm) {
-				confirm = false;
+			if (this.getConfirm()) {
+				this.setConfirm(false);
 			}
 
-			if (plugin.getExtensions().hasNoPermsTo(PermType.INSANE, player)) {
-				plugin.getPermMsg().nope(player);
+			if (super.getInstanceMgr().hasNoPermsTo(PermType.INSANE, player)) {
+				super.nope(player);
 			} else {
 				player.sendMessage(ChatColor.RED
 						+ "[DevandTesting] Insane mode will add additional functions that could break the server. Type 'yes' if you want to continue.");
-				confirm = true;
+				this.setConfirm(true);
 			}
 		}
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param event
+	 */
 	@EventHandler
 	public void onPlayerChatEvent(AsyncPlayerChatEvent event) {
-		if (confirm && event.getMessage().equalsIgnoreCase("yes")
-				&& plugin.getExtensions().doesHavePermsTo(PermType.INSANE, player) && event.getPlayer().equals(player)) {
+		if (this.getConfirm() && event.getMessage().equalsIgnoreCase("yes")
+				&& super.getInstanceMgr().doesHavePermsTo(PermType.INSANE, player)
+				&& event.getPlayer().equals(player)) {
 			event.setCancelled(true);
 			player.sendMessage(
 					ChatColor.RED + "Insane mode is loading now. It can only be deactivated through a server restart.");
-			InsaneMode imode = new InsaneMode(plugin);
-			imode.initializeInsaneMode();
+			super.getInstanceMgr().initializeInsaneMode();
 		}
 	}
 }

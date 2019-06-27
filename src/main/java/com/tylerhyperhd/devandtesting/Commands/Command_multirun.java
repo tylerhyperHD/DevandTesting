@@ -3,27 +3,37 @@
  */
 package com.tylerhyperhd.devandtesting.Commands;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 
-public class Command_multirun implements CommandExecutor {
+public class Command_multirun extends PermsManager {
 
-	private final DevandTesting plugin;
-
-	public Command_multirun(DevandTesting plugin) {
-		this.plugin = plugin;
+	/**
+	 * Constructs and enables the multirun command.
+	 * 
+	 * @param iMgr The instance manager for the command.
+	 */
+	public Command_multirun(InstanceManager iMgr) {
+		super(iMgr);
 	}
 
+	/**
+	 * 
+	 * @param sender The sender executing the command.
+	 * @param cmd The command being executed.
+	 * @param string The string associated with the command.
+	 * @param args The arguments associated with the command.
+	 * @return True if the command executed successfully, false if the command didn't execute correctly.
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-		if (!plugin.configs.getOverlords().contains(sender.getName())) {
-			return plugin.getPermMsg().nope(sender);
+		if (!super.getInstanceMgr().getConfigs().getOverlords().contains(sender.getName())) {
+			return super.nope(sender);
 		}
 		if (args.length < 2) {
 			return false;

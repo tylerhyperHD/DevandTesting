@@ -32,36 +32,42 @@ import java.util.logging.Level;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class ConfigExe {
 
 	private final String fileName;
-	private final JavaPlugin plugin;
+	private InstanceManager iMgr;
 
 	private File configFile;
 	private FileConfiguration fileConfiguration;
 
-	public ConfigExe(JavaPlugin plugin, String fileName) {
-		if (plugin == null) {
+	/**
+	 * Initializes the config files
+	 * 
+	 * @param iMgr The instance manager for the plugin
+	 * @param fileName The file name of the config
+	 */
+	public ConfigExe(InstanceManager iMgr, String fileName) {
+		this.iMgr = iMgr;
+		
+		if (this.iMgr.getPlugin() == null) {
 			throw new IllegalArgumentException("plugin cannot be null");
 		}
-		if (!plugin.isEnabled()) {
+		if (!this.iMgr.getPlugin().isEnabled()) {
 			throw new IllegalArgumentException("plugin must be initialized");
 		}
-		this.plugin = plugin;
 		this.fileName = fileName;
-		File dataFolder = plugin.getDataFolder();
+		File dataFolder = this.iMgr.getPlugin().getDataFolder();
 		if (dataFolder == null) {
 			throw new IllegalStateException();
 		}
-		this.configFile = new File(plugin.getDataFolder(), fileName);
+		this.configFile = new File(this.iMgr.getPlugin().getDataFolder(), fileName);
 	}
 
 	public void reloadConfig() {
 		fileConfiguration = YamlConfiguration.loadConfiguration(configFile);
 
-		InputStream defConfigStream = plugin.getResource(fileName);
+		InputStream defConfigStream = this.iMgr.getPlugin().getResource(fileName);
 		Reader targetReader = new InputStreamReader(defConfigStream);
 		if (defConfigStream != null) {
 			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(targetReader);
@@ -69,6 +75,11 @@ public class ConfigExe {
 		}
 	}
 
+	/**
+	 * Gets the configuration associated with the file
+	 * 
+	 * @return The config file
+	 */
 	public FileConfiguration getConfig() {
 		if (fileConfiguration == null) {
 			reloadConfig();
@@ -76,6 +87,9 @@ public class ConfigExe {
 		return fileConfiguration;
 	}
 
+	/**
+	 * Saves the config file
+	 */
 	public void saveConfig() {
 		if (fileConfiguration == null || configFile == null) {
 			return;
@@ -83,14 +97,17 @@ public class ConfigExe {
 			try {
 				getConfig().save(configFile);
 			} catch (IOException ex) {
-				plugin.getLogger().log(Level.SEVERE, "Could not save config to " + configFile, ex);
+				this.iMgr.getPlugin().getLogger().log(Level.SEVERE, "Could not save config to " + configFile, ex);
 			}
 		}
 	}
 
+	/**
+	 * Saves the default config values
+	 */
 	public void saveDefaultConfig() {
 		if (!configFile.exists()) {
-			this.plugin.saveResource(fileName, false);
+			this.iMgr.getPlugin().saveResource(fileName, false);
 		}
 	}
 

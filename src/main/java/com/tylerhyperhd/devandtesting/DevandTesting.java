@@ -43,111 +43,101 @@ import com.tylerhyperhd.devandtesting.Commands.Command_pkillswitch;
 import com.tylerhyperhd.devandtesting.Commands.Command_spectator;
 import com.tylerhyperhd.devandtesting.Commands.Command_survival;
 import com.tylerhyperhd.devandtesting.Commands.Command_website;
-import com.tylerhyperhd.devandtesting.Commands.NoPerms;
 import com.tylerhyperhd.devandtesting.InsaneBranch.CommandsDisabled;
-import com.tylerhyperhd.devandtesting.InsaneBranch.InsaneMode;
 import com.tylerhyperhd.devandtesting.Listener.ColorListener;
 import com.tylerhyperhd.devandtesting.Listener.InsaneListener;
 import com.tylerhyperhd.devandtesting.Listener.TestingListener;
 
 public class DevandTesting extends JavaPlugin {
-
-	public DevandTesting plugin;
-	private NoPerms noperms;
-	public DevLogger logger;
-	public ConfigLoader configs;
-	public static String version;
 	public static List<String> admin = new ArrayList<String>();
-	public CommandExtensions extensions;
-	public GamemodeInventories gminvs;
+	private GamemodeInventories gminvs;
 
+	// New instance manager
+	private InstanceManager iMgr;
+
+	/**
+	 * Initializes the plugin before starting
+	 */
 	@Override
 	public void onLoad() {
-		plugin = this;
-		DevandTesting.version = plugin.getDescription().getVersion();
-		noperms = new NoPerms();
-		logger = new DevLogger(plugin);
-		extensions = new CommandExtensions(plugin);
-		new ColorMeBitch(plugin);
+		this.iMgr = new InstanceManager(this);
+		new ColorMeBitch(this);
 	}
 
+	/**
+	 * Runs onEnable scripts
+	 */
 	@Override
 	public void onEnable() {
-		logger.info("DevandTesting helps fix all dev problems!");
-		logger.info("Made by tylerhyperHD");
+		this.iMgr.initializeConfigs();
+		this.iMgr.getLogger().info("DevandTesting helps fix all dev problems!");
+		this.iMgr.getLogger().info("Made by tylerhyperHD");
 
-		if (version.contains("ALPHA")) {
-			logger.info("=====================================");
-			logger.info("WARNING: DevandTesting is in ALPHA");
-			logger.info("Alpha builds are prone to huge issues and instability.");
-			logger.info("Please proceed with caution as there is no support for these builds.");
-			logger.info("=====================================");
-		} else if (version.contains("BETA")) {
-			logger.info("=====================================");
-			logger.info("Notice: DevandTesting is in BETA");
-			logger.info("There might be issues related to this build not solved.");
-			logger.info("Please proceed with caution.");
-			logger.info("=====================================");
+		if (this.iMgr.getVersion().contains("ALPHA")) {
+			this.iMgr.getLogger().info("=====================================");
+			this.iMgr.getLogger().info("WARNING: DevandTesting is in ALPHA");
+			this.iMgr.getLogger().info("Alpha builds are prone to huge issues and instability.");
+			this.iMgr.getLogger().info("Please proceed with caution as there is no support for these builds.");
+			this.iMgr.getLogger().info("=====================================");
+		} else if (this.iMgr.getVersion().contains("BETA")) {
+			this.iMgr.getLogger().info("=====================================");
+			this.iMgr.getLogger().info("Notice: DevandTesting is in BETA");
+			this.iMgr.getLogger().info("There might be issues related to this build not solved.");
+			this.iMgr.getLogger().info("Please proceed with caution.");
+			this.iMgr.getLogger().info("=====================================");
 		}
 
-		configs = new ConfigLoader(plugin);
-		
 		// TODO: Fix command aliases the correct way instead of this
-		
-		String[] gmexts = {"gm", "egamemode", "gamemode"};
-		extensions.registerMultipleCommands(gmexts, new Command_gamemode(plugin));
-		plugin.getCommand("admin").setExecutor(new Command_admin(plugin));
-		String[] crexts = {"creative", "gmc", "ecreative"};
-		extensions.registerMultipleCommands(crexts, new Command_creative(plugin));
-		String[] survexts = {"survival", "gms", "esurvival"};
-		extensions.registerMultipleCommands(survexts, new Command_survival(plugin));
-		plugin.getCommand("website").setExecutor(new Command_website(plugin));
-		plugin.getCommand("color").setExecutor(new Command_color(plugin));
-		plugin.getCommand("kill").setExecutor(new Command_kill(plugin));
-		plugin.getCommand("multirun").setExecutor(new Command_multirun(plugin));
-		plugin.getCommand("lagg").setExecutor(new Command_lagg(plugin));
-		plugin.getCommand("dab").setExecutor(new Command_dab(plugin));
-		plugin.getCommand("spectator").setExecutor(new Command_spectator(plugin));
-		plugin.getCommand("pkillswitch").setExecutor(new Command_pkillswitch(plugin));
-		String[] ccexts = {"clearchat", "cc"};
-		extensions.registerMultipleCommands(ccexts, new Command_clearchat(plugin));
 
-		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvents(new TestingListener(plugin), plugin);
-		pm.registerEvents(new ColorListener(plugin), plugin);
+		String[] gmexts = { "gm", "egamemode", "gamemode" };
+		this.iMgr.registerMultipleCommands(gmexts, new Command_gamemode(this.iMgr));
+		this.getCommand("admin").setExecutor(new Command_admin(this.iMgr));
+		String[] crexts = { "creative", "gmc", "ecreative" };
+		this.iMgr.registerMultipleCommands(crexts, new Command_creative(this.iMgr));
+		String[] survexts = { "survival", "gms", "esurvival" };
+		this.iMgr.registerMultipleCommands(survexts, new Command_survival(this.iMgr));
+		this.getCommand("website").setExecutor(new Command_website(this.iMgr));
+		this.getCommand("color").setExecutor(new Command_color(this.iMgr));
+		this.getCommand("kill").setExecutor(new Command_kill(this.iMgr));
+		this.getCommand("multirun").setExecutor(new Command_multirun(this.iMgr));
+		this.getCommand("lagg").setExecutor(new Command_lagg(this.iMgr));
+		this.getCommand("dab").setExecutor(new Command_dab(this.iMgr));
+		this.getCommand("spectator").setExecutor(new Command_spectator(this.iMgr));
+		this.getCommand("pkillswitch").setExecutor(new Command_pkillswitch(this.iMgr));
+		String[] ccexts = { "clearchat", "cc" };
+		this.iMgr.registerMultipleCommands(ccexts, new Command_clearchat(this.iMgr));
 
-		if (configs.isInsaneModeEnabled()) {
-			logger.warning(
+		PluginManager pm = this.getServer().getPluginManager();
+		pm.registerEvents(new TestingListener(this.iMgr), this);
+		pm.registerEvents(new ColorListener(this.iMgr), this);
+
+		if (this.iMgr.getConfigs().isInsaneModeEnabled()) {
+			this.iMgr.getLogger().warning(
 					"Insane mode can be triggered right now. This might cause server chaos if it is toggled, so be careful.");
-			pm.registerEvents(new InsaneListener(plugin), plugin);
+			pm.registerEvents(new InsaneListener(this.iMgr), this);
 		}
-		
+
 		// Register an insane command fixer to help fix dead commands
-		String[] multicmd = {"blowup", "purple"};
-		extensions.registerMultipleCommands(multicmd, new CommandsDisabled());
-		
+		String[] multicmd = { "blowup", "purple" };
+		this.iMgr.registerMultipleCommands(multicmd, new CommandsDisabled());
+
 		if (pm.isPluginEnabled("GameModeInventories")) {
-			logger.info("GameModeInventories detected, loading support classes...");
-			gminvs = new GamemodeInventories(plugin);
+			this.iMgr.getLogger().info("GameModeInventories detected, loading support classes...");
+			gminvs = new GamemodeInventories(this.iMgr);
 			gminvs.getRidOfGMStuff();
 		} else {
-			logger.warning("GameModeInventories not enabled -- this disables admin inventory switch support. Beware.");
+			this.iMgr.getLogger().warning(
+					"GameModeInventories not enabled -- this disables admin inventory switch support. Beware.");
 		}
 	}
 
+	/**
+	 * Runs onDisable scripts
+	 */
 	@Override
 	public void onDisable() {
-		InsaneMode.runDisableTasks();
-		logger.info("Chill out. I'm disabled.");
-		Bukkit.getServer().getScheduler().cancelTasks(plugin);
-	}
-
-	// I know I don't have to create this yet it makes the code look nicer
-	public CommandExtensions getExtensions() {
-		return extensions;
-	}
-	
-	public NoPerms getPermMsg() {
-		return noperms;
+		this.iMgr.cleanupInsaneMode();
+		this.iMgr.getLogger().info("Chill out. I'm disabled.");
+		Bukkit.getServer().getScheduler().cancelTasks(this);
 	}
 }

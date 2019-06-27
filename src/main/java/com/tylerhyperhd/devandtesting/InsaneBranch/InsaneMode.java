@@ -28,29 +28,25 @@ import org.bukkit.GameRule;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 import com.tylerhyperhd.devandtesting.InsaneBranch.Commands.Command_blowup;
 import com.tylerhyperhd.devandtesting.InsaneBranch.Commands.Command_purple;
 
 public class InsaneMode {
-	// Private init to allow static disable tasks method
-	private static InsaneMode insane;
-	private final DevandTesting plugin;
+	private InstanceManager iMgr;
 	private PurpleCalmer pcalmer;
 	public boolean initialized;
 	private boolean gameruleChanged;
 	private boolean invChanged;
-
-	public InsaneMode(DevandTesting plugin) {
-		this.plugin = plugin;
-		InsaneMode.insane = this;
-	}
-
-	// This method will never be used, so we aren't using it here
-	@SuppressWarnings("unused")
-	private InsaneMode(DevandTesting plugin, PurpleCalmer pcalmer) {
-		this.plugin = plugin;
+	
+	/**
+	 * 
+	 * 
+	 * @param iMgr
+	 */
+	public InsaneMode(InstanceManager iMgr) {
+		this.iMgr = iMgr;
+		initializeInsaneMode();
 	}
 
 	/**
@@ -62,59 +58,109 @@ public class InsaneMode {
 		return pcalmer;
 	}
 
-// TODO: Might implement this if I need to in the future.	
-//	public static InsaneMode getInstance() {
-//		if (insane.initialized) {
-//			return insane;
-//		}
-//		else {
-//			return null;
-//		}
-//	}
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	private boolean hasInvChanged() {
+		return this.invChanged;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param invChanged
+	 */
+	private void setInvChanged(boolean invChanged) {
+		this.invChanged = invChanged;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	private boolean isInitialized() {
+		return this.initialized;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param initialized
+	 */
+	private void setInitialized(boolean initialized) {
+		this.initialized = initialized;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	private boolean hasGameruleChanged() {
+		return this.gameruleChanged;
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param gameruleChanged
+	 */
+	private void setGameRuleChanged(boolean gameruleChanged) {
+		this.gameruleChanged = gameruleChanged;
+	}
 
 	/**
 	 * Initializes all insane commands from the listener.
 	 */
-	public void initializeInsaneMode() {
+	private void initializeInsaneMode() {
 		this.pcalmer = new PurpleCalmer();
-		plugin.getCommand("purple").setExecutor(new Command_purple(plugin, this));
-		plugin.getCommand("blowup").setExecutor(new Command_blowup(plugin));
-		plugin.getServer().getPluginManager().registerEvents(new InsaneChaosCalmer(this), plugin);
+		iMgr.getPlugin().getCommand("purple").setExecutor(new Command_purple(this.iMgr, this));
+		iMgr.getPlugin().getCommand("blowup").setExecutor(new Command_blowup(this.iMgr));
+		iMgr.getPlugin().getServer().getPluginManager().registerEvents(new InsaneChaosCalmer(this),
+				this.iMgr.getPlugin());
 		for (World world : Bukkit.getWorlds()) {
 			if (world.getGameRuleValue(GameRule.DO_MOB_LOOT)) {
 				world.setGameRule(GameRule.DO_MOB_LOOT, false);
-				plugin.getLogger()
+				iMgr.getLogger()
 						.warning(world.getName() + " had entity drops on. For your safety, this has been turned off.");
-				gameruleChanged = true;
+				this.setGameRuleChanged(true);
 			}
 			// Not using else if due to us wanting to find both of these
 			if (!(world.getGameRuleValue(GameRule.KEEP_INVENTORY))) {
 				world.setGameRule(GameRule.KEEP_INVENTORY, true);
-				plugin.getLogger().warning("Keeping inventory was set to true in world " + world.getName() + " to prevent issues.");
-				invChanged = true;
+				iMgr.getLogger().warning(
+						"Keeping inventory was set to true in world " + world.getName() + " to prevent issues.");
+				this.setInvChanged(true);
 			}
 		}
-		initialized = true;
+		this.setInitialized(true);
 	}
 
-	public static void runDisableTasks() {
-		if (insane.initialized) {
-			if (insane.gameruleChanged) {
+	/**
+	 * 
+	 * 
+	 */
+	public void runDisableTasks() {
+		if (this.isInitialized()) {
+			if (this.hasGameruleChanged()) {
 				for (World world : Bukkit.getWorlds()) {
 					world.setGameRule(GameRule.DO_MOB_LOOT, true);
 				}
-				insane.plugin.getLogger().warning(
+				this.iMgr.getLogger().warning(
 						"Since we had entity drops off and you had it on previously, they have been switched back on.");
 			}
-			if(insane.invChanged) {
+			if (this.hasInvChanged()) {
 				for (World world : Bukkit.getWorlds()) {
 					world.setGameRule(GameRule.KEEP_INVENTORY, false);
 				}
-				insane.plugin.getLogger().info("Keep inventory has been fixed now.");
+				this.iMgr.getLogger().info("Keep inventory has been fixed now.");
 			}
 
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				for (ItemStack purplestuff : insane.pcalmer.getPurpleStuff()) {
+				for (ItemStack purplestuff : this.getPurpleStuff().getPurpleStuff()) {
 					if (player.getInventory().contains(purplestuff)) {
 						// Get rid of the purple stuff on restart to remove server insanity
 						player.getInventory().remove(purplestuff);

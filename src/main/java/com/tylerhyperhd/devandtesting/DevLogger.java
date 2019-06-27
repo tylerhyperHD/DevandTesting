@@ -27,30 +27,54 @@ import java.io.IOException;
 
 public class DevLogger {
 
-	private final DevandTesting plugin;
+	private InstanceManager iMgr;
 
-	public DevLogger(DevandTesting plugin) {
-		this.plugin = plugin;
+	/**
+	 * Constructs the logger for the plugin
+	 * @param iMgr The instance manager for the plugin
+	 */
+	public DevLogger(InstanceManager iMgr) {
+		this.iMgr = iMgr;
 	}
 
+	/**
+	 * Returns a log warning when needed
+	 * @param msg The message of the log warning
+	 */
 	public void warning(String msg) {
-		plugin.getLogger().warning(msg);
+		iMgr.getPlugin().getLogger().warning(msg);
 	}
 
+	/**
+	 * Returns a log info when needed
+	 * @param msg The message of the log info
+	 */
 	public void info(String msg) {
-		plugin.getLogger().warning(msg);
+		iMgr.getPlugin().getLogger().warning(msg);
 	}
 
+	/**
+	 * Returns a log warning when needed
+	 * @param ex The message of the log warning
+	 */
 	public void warning(IOException ex) {
-		plugin.getLogger().warning(ex.toString());
+		iMgr.getPlugin().getLogger().warning(ex.toString());
 	}
 
+	/**
+	 * Returns a log severe when needed
+	 * @param msg The message of the log severe
+	 */
 	public void severe(String msg) {
-		plugin.getLogger().severe(msg);
+		iMgr.getPlugin().getLogger().severe(msg);
 	}
 
+	/**
+	 * Returns a log severe when needed
+	 * @param ex The message of the log severe
+	 */
 	public void severe(Exception ex) {
-		plugin.getLogger().severe(ex.toString());
+		iMgr.getPlugin().getLogger().severe(ex.toString());
 	}
 
 }

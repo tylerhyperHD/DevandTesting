@@ -51,6 +51,11 @@ public class ColorUtil {
 	public static List<String> YellowChat = new ArrayList<String>();
 	public static List<String> WhiteChat = new ArrayList<String>();
 
+	/**
+	 * Removes all chat colors from a sender
+	 * 
+	 * @param sender The sender that will no longer have colors
+	 */
 	public static void removeAll(CommandSender sender) {
 		GoldChat.remove(sender.getName());
 		GrayChat.remove(sender.getName());
@@ -69,6 +74,12 @@ public class ColorUtil {
 		DarkPurpleChat.remove(sender.getName());
 	}
 
+	/**
+	 * Gets the color that the player has
+	 * 
+	 * @param player The player being searched
+	 * @return The color that the player has
+	 */
 	public static String getColor(Player player) {
 		if (ColorUtil.DarkBlueChat.contains(player.getName())) {
 			return ChatColor.DARK_BLUE + "Dark Blue";

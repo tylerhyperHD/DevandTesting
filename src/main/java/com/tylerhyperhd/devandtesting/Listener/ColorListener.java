@@ -26,30 +26,42 @@ package com.tylerhyperhd.devandtesting.Listener;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.tylerhyperhd.devandtesting.ColorUtil;
-import com.tylerhyperhd.devandtesting.DevandTesting;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 import com.tylerhyperhd.devandtesting.PermType;
 
-public class ColorListener implements Listener {
+public class ColorListener extends ListenerController {
 
-	private final DevandTesting plugin;
-
-	public ColorListener(DevandTesting plugin) {
-		this.plugin = plugin;
+	/**
+	 * 
+	 * 
+	 * @param iMgr
+	 */
+	public ColorListener(InstanceManager iMgr) {
+		super(iMgr);
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param event
+	 */
 	@EventHandler
 	public void onPlayerJoinEvent(PlayerJoinEvent event) {
-		if (plugin.getExtensions().doesHavePermsTo(PermType.COLOR, event.getPlayer())) {
+		if (super.getInstanceMgr().doesHavePermsTo(PermType.COLOR, event.getPlayer())) {
 			event.getPlayer()
 					.sendMessage(ChatColor.GOLD + "Your Chat Color is set to " + ColorUtil.getColor(event.getPlayer()));
 		}
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param event
+	 */
 	@EventHandler
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();

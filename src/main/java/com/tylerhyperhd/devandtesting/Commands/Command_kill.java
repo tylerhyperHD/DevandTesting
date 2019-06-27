@@ -26,29 +26,39 @@ package com.tylerhyperhd.devandtesting.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.tylerhyperhd.devandtesting.ColorMeBitch;
-import com.tylerhyperhd.devandtesting.DevandTesting;
 import com.tylerhyperhd.devandtesting.DeveloperBackdoor;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 import com.tylerhyperhd.devandtesting.PermType;
 
-public class Command_kill implements CommandExecutor {
+public class Command_kill extends PermsManager {
 
-	private final DevandTesting plugin;
-
-	public Command_kill(DevandTesting plugin) {
-		this.plugin = plugin;
+	/**
+	 * Constructs and enables the kill command.
+	 * 
+	 * @param iMgr The instance manager for the command.
+	 */
+	public Command_kill(InstanceManager iMgr) {
+		super(iMgr);
 	}
 
+	/**
+	 * 
+	 * @param sender The sender executing the command.
+	 * @param cmd The command being executed.
+	 * @param string The string associated with the command.
+	 * @param args The arguments associated with the command.
+	 * @return True if the command executed successfully, false if the command didn't execute correctly.
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String string, String[] args) {
-		Player sender_p = (Player) sender;
+		Player sender_p = super.getInstanceMgr().playerSenderFix(sender);
 
-		if (plugin.getExtensions().hasNoPermsTo(PermType.ADMIN, sender)) {
-			return plugin.getPermMsg().nope(sender);
+		if (super.getInstanceMgr().hasNoPermsTo(PermType.ADMIN, sender)) {
+			return super.nope(sender);
 		}
 
 		if (args.length == 0) {

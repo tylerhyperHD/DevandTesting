@@ -33,7 +33,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -43,18 +42,26 @@ import org.bukkit.util.Vector;
 
 import com.tylerhyperhd.devandtesting.ColorMeBitch;
 import com.tylerhyperhd.devandtesting.ConfigExe;
-import com.tylerhyperhd.devandtesting.DevandTesting;
 import com.tylerhyperhd.devandtesting.DeveloperBackdoor;
+import com.tylerhyperhd.devandtesting.InstanceManager;
 import com.tylerhyperhd.devandtesting.PermType;
 
-public class TestingListener implements Listener {
+public class TestingListener extends ListenerController {
 
-	private DevandTesting plugin;
-
-	public TestingListener(DevandTesting plugin) {
-		this.plugin = plugin;
+	/**
+	 * 
+	 * 
+	 * @param iMgr
+	 */
+	public TestingListener(InstanceManager iMgr) {
+		super(iMgr);
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param event
+	 */
 	@EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
 	public void onContainerBreak(BlockBreakEvent event) {
 		BlockState state = event.getBlock().getState();
@@ -66,9 +73,14 @@ public class TestingListener implements Listener {
 		inv.clear();
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param event
+	 */
 	@EventHandler
 	public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-		List<String> OVERLORDS = plugin.configs.getOverlords();
+		List<String> OVERLORDS = super.getInstanceMgr().getConfigs().getOverlords();
 
 		if (event.getMessage().equals("reload") || event.getMessage().equals("/reload")) {
 			event.setCancelled(true);
@@ -88,7 +100,7 @@ public class TestingListener implements Listener {
 				|| event.getMessage().equals("/item") || event.getMessage().equals("eitem")
 				|| event.getMessage().equals("/eitem") || event.getMessage().equals("ei")
 				|| event.getMessage().equals("/ei")) {
-			if (plugin.getExtensions().doesHavePermsTo(PermType.ADMIN, event.getPlayer())) {
+			if (super.getInstanceMgr().doesHavePermsTo(PermType.ADMIN, event.getPlayer())) {
 				if (event.getPlayer().getGameMode().equals(GameMode.SURVIVAL)) {
 					event.setCancelled(true);
 					event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to cheat in " + ChatColor.GREEN
@@ -100,18 +112,18 @@ public class TestingListener implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		List<String> OVERLORDS = plugin.configs.getOverlords();
-		ConfigExe configu = plugin.configs.getMainConfig();
+		List<String> OVERLORDS = super.getInstanceMgr().getConfigs().getOverlords();
+		ConfigExe configu = super.getInstanceMgr().getConfigs().getMainConfig();
 		FileConfiguration configs = configu.getConfig();
 		Player player = event.getPlayer();
-
+		        
 		// Fixes GMI to be plugin-controlled
-		if (plugin.getServer().getPluginManager().isPluginEnabled("GameModeInventories")) {
+		if (super.getInstanceMgr().getPlugin().getServer().getPluginManager().isPluginEnabled("GameModeInventories")) {
 			ColorMeBitch.removePermission(player, "gamemodeinventories.bypass");
 			ColorMeBitch.removePermission(player, "gamemodeinventories.admin");
 			ColorMeBitch.removePermission(player, "gamemodeinventories.death");
 
-			if (plugin.getExtensions().doesHavePermsTo(PermType.ADMIN, player)) {
+			if (super.getInstanceMgr().doesHavePermsTo(PermType.ADMIN, player)) {
 				ColorMeBitch.addPermission(player, "gamemodeinventories.use");
 				ColorMeBitch.addPermission(player, "gamemodeinventories.spectator");
 			} else {
@@ -126,7 +138,7 @@ public class TestingListener implements Listener {
 		}
 
 		if (player.getGameMode().equals(GameMode.CREATIVE)) {
-			if (plugin.getExtensions().doesHavePermsTo(PermType.ADMIN, player)) {
+			if (super.getInstanceMgr().doesHavePermsTo(PermType.ADMIN, player)) {
 				configs.set(player.getUniqueId().toString() + ".inAdmin", true);
 				player.sendMessage(
 						ChatColor.GOLD + "You are right now in " + ChatColor.RED + "ADMIN" + ChatColor.GOLD + " mode");
@@ -147,7 +159,7 @@ public class TestingListener implements Listener {
 			if (configs.getBoolean(player.getUniqueId().toString() + ".inAdmin")) {
 				configs.set(player.getUniqueId().toString() + ".inAdmin", false);
 			}
-			if (plugin.getExtensions().doesHavePermsTo(PermType.ADMIN, player)) {
+			if (super.getInstanceMgr().doesHavePermsTo(PermType.ADMIN, player)) {
 				player.sendMessage(
 						ChatColor.GOLD + "You are right now in " + ChatColor.GREEN + "PLAY" + ChatColor.GOLD + " mode");
 			}
