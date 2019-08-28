@@ -182,6 +182,24 @@ public class PurpleCalmer {
 		CamBoots.setItemMeta(boots);
 		return CamBoots;
 	}
+	
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	public ItemStack getRoyalTrident() {
+		ItemStack RoyalTrident = new ItemStack(Material.TRIDENT, 1);
+		Command_purple.enchantAll(RoyalTrident);
+		ItemMeta trident = RoyalTrident.getItemMeta();
+		trident.setDisplayName(ChatColor.YELLOW + "Royal Trident");
+		List<String> e = Arrays.asList(new String[] { ChatColor.BLUE + "This aura should protect",
+				ChatColor.BLUE + "you from all possible harm." });
+		trident.setLore(e);
+		RoyalTrident.setItemMeta(trident);
+		return RoyalTrident;
+	}
 
 	/**
 	 * 
@@ -190,7 +208,7 @@ public class PurpleCalmer {
 	 */
 	public ItemStack[] getPurpleStuff() {
 		ItemStack[] purple = { getCamWool(), getCamBow(), getCamSword(), getCamArrow(), getCamChestplate(),
-				getCamLeggings(), getCamBoots() };
+				getCamLeggings(), getCamBoots(), getRoyalTrident() };
 		return purple;
 	}
 }

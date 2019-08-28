@@ -90,6 +90,7 @@ public class Command_purple extends PermsManager {
 				ItemStack CamChest = insane.getPurpleStuff().getCamChestplate();
 				ItemStack CamLegs = insane.getPurpleStuff().getCamLeggings();
 				ItemStack CamBoots = insane.getPurpleStuff().getCamBoots();
+				ItemStack RoyalTrident = insane.getPurpleStuff().getRoyalTrident();
 				inv.setHelmet(CamWool);
 				inv.addItem(CamBow);
 				inv.addItem(CamSword);
@@ -97,6 +98,7 @@ public class Command_purple extends PermsManager {
 				inv.setChestplate(CamChest);
 				inv.setLeggings(CamLegs);
 				inv.setBoots(CamBoots);
+				inv.addItem(RoyalTrident);
 			}
 		}
 		return true;
