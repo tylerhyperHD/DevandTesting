@@ -8,16 +8,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.v1_14_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_14_R1.entity.CraftEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import com.tylerhyperhd.devandtesting.InstanceManager;
 import com.tylerhyperhd.devandtesting.PermType;
 import com.tylerhyperhd.devandtesting.Commands.PermsManager;
-
-import net.minecraft.server.v1_14_R1.Explosion;
 
 public class Command_blowup extends PermsManager {
 
@@ -56,50 +52,36 @@ public class Command_blowup extends PermsManager {
 		Location loc = player.getLocation();
 
 		player.setVelocity(player.getVelocity().clone().add(new Vector(0, 100, 0)));
-		Explosion explosion = new Explosion(((CraftWorld) loc.getWorld()).getHandle(),
-				((CraftEntity) player).getHandle(), loc.getX(), loc.getY(), loc.getZ(), 5F, true, Explosion.Effect.DESTROY);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
-		explosion.a();
-		explosion.a(true);
-		loc.getWorld().createExplosion(loc, 0F, false);
+		/*
+		 * Legacy API Explosion 
+		 * explosion = new Explosion(((CraftWorld)
+		 * loc.getWorld()).getHandle(), ((CraftEntity) player).getHandle(), loc.getX(),
+		 * loc.getY(), loc.getZ(), 5F, true, Explosion.Effect.DESTROY);
+		 */
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
+		loc.getWorld().createExplosion(loc, 5F, false, false);
 
 		player.setHealth(0.0);
 

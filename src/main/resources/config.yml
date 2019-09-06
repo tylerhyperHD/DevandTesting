@@ -1,5 +1,6 @@
 #Main config for Dev and Testing by tylerhyperHD#
 insaneModeEnabled: false
+supressPaperAds: false
 Overlords:
     - tylerhyperHD
     - DDiS

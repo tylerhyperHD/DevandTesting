@@ -48,6 +48,8 @@ import com.tylerhyperhd.devandtesting.Listener.ColorListener;
 import com.tylerhyperhd.devandtesting.Listener.InsaneListener;
 import com.tylerhyperhd.devandtesting.Listener.TestingListener;
 
+import io.papermc.lib.PaperLib;
+
 public class DevandTesting extends JavaPlugin {
 	public static List<String> admin = new ArrayList<String>();
 	private GamemodeInventories gminvs;
@@ -70,6 +72,15 @@ public class DevandTesting extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		this.iMgr.initializeConfigs();
+		/* Ask users to convert to Paper Spigot */
+		if (!PaperLib.isPaper() && !this.iMgr.getConfigs().supressingPaper()) {
+			PaperLib.suggestPaper(this);
+			this.iMgr.getLogger().info("=====================================");
+			this.iMgr.getLogger().info("NOTE: DevandTesting will work on Spigot, yet we suggest you use Paper Spigot.");
+			this.iMgr.getLogger().info("=====================================");
+		} else {
+			this.iMgr.getLogger().info("Using Paper Spigot :)");
+		}
 		this.iMgr.getLogger().info("DevandTesting helps fix all dev problems!");
 		this.iMgr.getLogger().info("Made by tylerhyperHD");
 

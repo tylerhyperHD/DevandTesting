@@ -62,4 +62,12 @@ public class ConfigLoader {
 	public boolean isInsaneModeEnabled() {
 		return mainconfig.getConfig().getBoolean("insaneModeEnabled");
 	}
+	
+	/**
+	 * Gets whether or not the user wants to supress paper spigot ads
+	 * @return whether or not the user wants to supress paper spigot ads
+	 */
+	public boolean supressingPaper() {
+		return mainconfig.getConfig().getBoolean("supressPaperAds");
+	}
 }
