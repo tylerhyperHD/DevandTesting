@@ -48,8 +48,6 @@ import com.tylerhyperhd.devandtesting.Listener.ColorListener;
 import com.tylerhyperhd.devandtesting.Listener.InsaneListener;
 import com.tylerhyperhd.devandtesting.Listener.TestingListener;
 
-import io.papermc.lib.PaperLib;
-
 public class DevandTesting extends JavaPlugin {
 	public static List<String> admin = new ArrayList<String>();
 	private GamemodeInventories gminvs;
@@ -73,8 +71,7 @@ public class DevandTesting extends JavaPlugin {
 	public void onEnable() {
 		this.iMgr.initializeConfigs();
 		/* Ask users to convert to Paper Spigot */
-		if (!PaperLib.isPaper() && !this.iMgr.getConfigs().supressingPaper()) {
-			PaperLib.suggestPaper(this);
+		if (!this.isPresent("com.destroystokyo.paper.util.VersionFetcher") && !this.iMgr.getConfigs().supressingPaper()) {
 			this.iMgr.getLogger().info("=====================================");
 			this.iMgr.getLogger().info("NOTE: DevandTesting will work on Spigot, yet we suggest you use Paper Spigot.");
 			this.iMgr.getLogger().info("=====================================");
@@ -147,8 +144,25 @@ public class DevandTesting extends JavaPlugin {
 	 */
 	@Override
 	public void onDisable() {
-		this.iMgr.cleanupInsaneMode();
+		if (this.iMgr.isInsaneModeInitialized()) {
+			this.iMgr.cleanupInsaneMode();
+		}
 		this.iMgr.getLogger().info("Chill out. I'm disabled.");
 		Bukkit.getServer().getScheduler().cancelTasks(this);
+	}
+	
+	/**
+	 * Detects if the class is present
+	 * 
+	 * @param className The name of the class
+	 * @return true/false if the class is present
+	 */
+	private boolean isPresent(String className) {
+	    try {
+	         Class.forName(className);
+	    } catch (ClassNotFoundException e) {
+	         return false;
+	     }
+	    return true;
 	}
 }

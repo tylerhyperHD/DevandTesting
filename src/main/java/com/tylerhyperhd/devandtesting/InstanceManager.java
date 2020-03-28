@@ -13,6 +13,8 @@ public class InstanceManager {
 	private DevLogger logger;
 	private ConfigLoader configs;
 	private InsaneMode iMode;
+	
+	private boolean insaneModeInitialized;
 
 	/**
 	 * 
@@ -22,6 +24,7 @@ public class InstanceManager {
 		this.plugin = plugin;
 		this.version = plugin.getDescription().getVersion();
 		this.logger = new DevLogger(this);
+		this.setInsaneModeInitialized(false);
 	}
 
 	/**
@@ -63,6 +66,24 @@ public class InstanceManager {
 	public DevLogger getLogger() {
 		return this.logger;
 	}
+	
+	/**
+	 * Shows if insane mode is initialized or not.
+	 * 
+	 * @return true/false if insane mode is initialized
+	 */
+	public boolean isInsaneModeInitialized() {
+		return this.insaneModeInitialized;
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param insMode
+	 */
+	private void setInsaneModeInitialized(boolean insMode) {
+		this.insaneModeInitialized = insMode;
+	}
 
 	/**
 	 * 
@@ -77,6 +98,7 @@ public class InstanceManager {
 	 */
 	public void initializeInsaneMode() {
 		this.iMode = new InsaneMode(this);
+		this.setInsaneModeInitialized(true);
 	}
 
 	/**
